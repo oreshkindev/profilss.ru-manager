@@ -1,4 +1,5 @@
 import { getToken } from '@/composables';
+import { router } from '@/router';
 import { state } from '@/stores';
 import axios from 'axios';
 // import axiosCacheAdapter from "axios-cache-adapter";
@@ -38,6 +39,10 @@ instance.interceptors.response.use(
 
     if (error.response.status == 401) {
       console.log('401');
+
+      localStorage.removeItem('ssoID');
+
+      router.push({ name: 'user' });
 
       // let token = await refreshToken();
       // axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;

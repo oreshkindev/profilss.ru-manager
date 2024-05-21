@@ -5,7 +5,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import type { Post } from '../types';
 
-export const postStore = defineStore('post', () => {
+export const StorePost = defineStore('post', () => {
   const post = ref<Post>();
 
   const posts = ref<Post[]>([]);

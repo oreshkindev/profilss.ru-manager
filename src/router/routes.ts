@@ -11,6 +11,30 @@ const routes = [
     }
   },
   {
+    path: '/bid',
+    name: 'bid',
+    // route level code-splitting
+    // this generates a separate chunk (Home.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import('@/pages/bid/views/ViewIndex.vue'),
+    meta: {
+      layout: 'LayoutAdmin'
+    },
+    children: [
+      {
+        path: 'view/:id',
+        name: 'bid-view',
+        // route level code-splitting
+        // this generates a separate chunk (Home.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('@/pages/bid/views/ViewRead.vue'),
+        meta: {
+          layout: 'LayoutAdmin'
+        }
+      }
+    ]
+  },
+  {
     path: '/post',
     name: 'post',
     // route level code-splitting

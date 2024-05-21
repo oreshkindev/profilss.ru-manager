@@ -5,7 +5,7 @@ import { reactive } from 'vue';
 
 import { axios } from '@/common/axios';
 
-export const userStore = defineStore('user', () => {
+export const StoreUser = defineStore('user', () => {
   const data = reactive({
     email: '',
     password: ''

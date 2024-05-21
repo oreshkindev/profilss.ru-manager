@@ -5,14 +5,14 @@ import ComponentInput from '@/components/ComponentInput.vue';
 import ComponentTextarea from '@/components/ComponentTextarea.vue';
 import { errors, setErrors } from '@/composables/errors';
 import { Protector, minLength } from '@/composables/validates';
-import { postStore } from '@/pages/post/stores';
+import { StorePost } from '@/pages/post/stores';
 import { computed } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import type { Post } from '../types';
 
 const route = useRoute();
 
-const store = postStore();
+const store = StorePost();
 
 const data = computed(() => store.post);
 

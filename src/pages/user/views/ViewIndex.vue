@@ -3,9 +3,9 @@ import ComponentInput from '@/components/ComponentInput.vue';
 import IconLogo from '@/components/icons/IconLogo.vue';
 import { errors, setErrors } from '@/composables/errors';
 import { Protector, isEmail, minLength } from '@/composables/validates';
-import { userStore } from '@/pages/user/stores';
+import { StoreUser } from '@/pages/user/stores';
 
-const { data, signin } = userStore();
+const { data, signin } = StoreUser();
 
 // Create an instance of Protector class with rules for the field
 const protector = new Protector(

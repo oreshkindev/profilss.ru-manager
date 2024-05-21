@@ -55,6 +55,10 @@ body {
   }
 }
 
+b {
+  font-weight: 600;
+}
+
 h1 {
   font-size: 32px;
 }
@@ -82,6 +86,11 @@ button[type='button'],
   &:hover {
     background-color: var(--c-scheme-hover);
   }
+
+  &:disabled {
+    background-color: #dfe3e8;
+    cursor: default;
+  }
 }
 
 .card {
@@ -95,6 +104,46 @@ button[type='button'],
 
   &:hover {
     text-decoration: underline;
+  }
+}
+
+table {
+  border-collapse: collapse;
+
+  th {
+    border-bottom: 1px solid #f2f4f7;
+    color: #707a8a;
+    padding: 24px;
+
+    &:first-of-type {
+      width: 60px;
+    }
+
+    &:last-of-type {
+      width: 180px;
+    }
+  }
+
+  td {
+    padding: 12px 24px;
+
+    a {
+      color: var(--c-scheme);
+    }
+  }
+
+  th,
+  td {
+    font: inherit;
+    text-align: left;
+  }
+
+  tr {
+    &:not(:first-child) {
+      &:hover {
+        background-color: #f2f4f7;
+      }
+    }
   }
 }
 

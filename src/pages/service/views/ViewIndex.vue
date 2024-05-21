@@ -28,7 +28,7 @@ store.find();
       </p>
     </section>
 
-    <table class="card">
+    <table class="card" v-if="store.services.length">
       <thead>
         <tr>
           <th>ID</th>
@@ -49,57 +49,24 @@ store.find();
         </td>
       </tr>
     </table>
+
+    <h4 v-else>Список услуг пуст</h4>
   </main>
 
   <RouterView></RouterView>
 </template>
 
 <style scoped lang="scss">
-table {
-  border-collapse: collapse;
-
-  th {
-    color: #707a8a;
-    padding: 24px;
-
-    &:first-of-type {
-      width: 60px;
-    }
-
-    &:last-of-type {
-      width: 180px;
-    }
-  }
-
-  td {
-    padding: 12px 24px;
-
-    a {
-      color: var(--c-scheme);
-    }
-  }
-
-  th,
-  td {
-    font: inherit;
-    text-align: left;
-  }
-
-  tr {
-    &:not(:first-child) {
-      &:hover {
-        background-color: #f2f4f7;
-      }
-    }
-  }
-}
-
 main {
   display: flex;
   flex-direction: column;
   flex: 1;
   padding: 24px;
   gap: 24px;
+
+  h4 {
+    padding: 24px;
+  }
 }
 
 section {

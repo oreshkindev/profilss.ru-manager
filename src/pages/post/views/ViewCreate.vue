@@ -5,12 +5,12 @@ import ComponentInput from '@/components/ComponentInput.vue';
 import ComponentTextarea from '@/components/ComponentTextarea.vue';
 import { errors, setErrors } from '@/composables/errors';
 import { Protector, minLength } from '@/composables/validates';
-import { postStore } from '@/pages/post/stores';
+import { StorePost } from '@/pages/post/stores';
 import type { Post } from '@/pages/post/types';
 import { reactive } from 'vue';
 import { RouterLink } from 'vue-router';
 
-const { create } = postStore();
+const { create } = StorePost();
 
 const data = reactive<Post>({
   description: '',
