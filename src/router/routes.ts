@@ -105,6 +105,41 @@ const routes = [
     ]
   },
   {
+    path: '/product',
+    name: 'product',
+    // route level code-splitting
+    // this generates a separate chunk (Home.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import('@/pages/product/views/ViewIndex.vue'),
+    meta: {
+      layout: 'LayoutAdmin'
+    },
+    children: [
+      {
+        path: 'create',
+        name: 'product-create',
+        // route level code-splitting
+        // this generates a separate chunk (Home.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('@/pages/product/views/ViewCreate.vue'),
+        meta: {
+          layout: 'LayoutAdmin'
+        }
+      },
+      {
+        path: 'update/:id',
+        name: 'product-update',
+        // route level code-splitting
+        // this generates a separate chunk (Home.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('@/pages/product/views/ViewUpdate.vue'),
+        meta: {
+          layout: 'LayoutAdmin'
+        }
+      }
+    ]
+  },
+  {
     path: '/user/account',
     name: 'user',
     // route level code-splitting
