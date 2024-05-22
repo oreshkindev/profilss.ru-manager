@@ -16,13 +16,15 @@ const model = defineModel<any>();
 
   <textarea :class="{ error: errors[k] }" rows="5" :id="props.k" v-model="model"></textarea>
 
-  <span v-if="errors[props.k]">{{ errors[props.k] }}</span>
+  <template v-if="errors[props.k]">
+    <span v-for="error in errors[props.k]" :key="error">{{ error }}</span>
+  </template>
 </template>
 
 <style scoped lang="scss">
-span {
+label {
   display: block;
-  font-size: 14px;
+  margin: 12px 0 0;
 }
 
 textarea {
@@ -37,5 +39,9 @@ textarea {
 /* shake animation for error */
 textarea.error {
   border-color: tomato;
+}
+
+span {
+  display: block;
 }
 </style>

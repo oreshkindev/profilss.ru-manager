@@ -17,13 +17,15 @@ const model = defineModel<any>();
 
   <input :class="{ error: errors[props.k] }" :type="props.type" :id="props.k" v-model="model" />
 
-  <span v-if="errors[props.k]">{{ errors[props.k] }}</span>
+  <template v-if="errors[props.k]">
+    <span v-for="error in errors[props.k]" :key="error">{{ error }}</span>
+  </template>
 </template>
 
 <style scoped lang="scss">
-span {
+label {
   display: block;
-  font-size: 14px;
+  margin: 12px 0 0;
 }
 
 input[type='text'],
@@ -40,5 +42,9 @@ input[type='password'] {
 /* shake animation for error */
 input.error {
   border-color: tomato;
+}
+
+span {
+  display: block;
 }
 </style>

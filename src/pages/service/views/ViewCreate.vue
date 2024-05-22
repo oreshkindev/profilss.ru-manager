@@ -17,7 +17,8 @@ const data = reactive<Service>({
   content: '',
   file: '',
   published: false,
-  name: ''
+  name: '',
+  quote: ''
 });
 
 // Create an instance of Protector class with rules for the field
@@ -74,6 +75,8 @@ const prepareSubmit = () => {
       <ComponentTextarea label="Описание" v-model="data.description" k="description"></ComponentTextarea>
 
       <ComponentTextarea label="Содержимое публикации" v-model="data.content" k="content"></ComponentTextarea>
+
+      <ComponentTextarea label="Цитата" v-model="data.quote" k="quote"></ComponentTextarea>
 
       <ComponentCheckbox label="Опубликовать" v-model="data.published" k="published"></ComponentCheckbox>
     </section>

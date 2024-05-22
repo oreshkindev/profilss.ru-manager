@@ -17,21 +17,22 @@ const model = defineModel<any>();
 
     <label :for="props.k">{{ props.label }}</label>
 
-    <span v-if="errors[props.k]">{{ errors[props.k] }}</span>
+    <template v-if="errors[props.k]">
+      <span v-for="error in errors[props.k]" :key="error">{{ error }}</span>
+    </template>
   </div>
 </template>
 
 <style scoped lang="scss">
+label {
+  display: block;
+}
+
 div {
   display: flex;
   gap: 24px;
   margin: 24px 0;
   place-items: center;
-}
-
-span {
-  display: block;
-  font-size: 14px;
 }
 
 input[type='checkbox'] {
@@ -72,5 +73,9 @@ input[type='checkbox'] {
 /* shake animation for error */
 input.error {
   border-color: tomato;
+}
+
+span {
+  display: block;
 }
 </style>

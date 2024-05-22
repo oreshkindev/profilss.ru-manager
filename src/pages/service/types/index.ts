@@ -6,6 +6,7 @@ interface Service {
   published: boolean;
   name: string;
   created_at?: number;
+  quote: string;
 }
 
 export type { Service };

@@ -83,6 +83,8 @@ store.first(route.params.id);
 
       <ComponentTextarea label="Содержимое публикации" v-model="data.content" k="content"></ComponentTextarea>
 
+      <ComponentTextarea label="Цитата" v-model="data.quote" k="quote"></ComponentTextarea>
+
       <ComponentCheckbox label="Опубликовать" v-model="data.published" k="published"></ComponentCheckbox>
     </section>
 

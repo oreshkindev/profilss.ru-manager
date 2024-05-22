@@ -30,13 +30,15 @@ const model = defineModel<any>();
     </ul>
   </ul>
 
-  <span v-if="errors[props.k]">{{ errors[props.k] }}</span>
+  <template v-if="errors[props.k]">
+    <span v-for="error in errors[props.k]" :key="error">{{ error }}</span>
+  </template>
 </template>
 
 <style scoped lang="scss">
-span {
+label {
   display: block;
-  font-size: 14px;
+  margin: 12px 0 0;
 }
 
 ul {
@@ -71,5 +73,9 @@ ul {
       }
     }
   }
+}
+
+span {
+  display: block;
 }
 </style>
