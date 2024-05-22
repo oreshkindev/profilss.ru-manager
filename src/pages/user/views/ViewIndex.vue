@@ -1,84 +1,102 @@
 <script setup lang="ts">
-import ComponentInput from '@/components/ComponentInput.vue';
-import IconLogo from '@/components/icons/IconLogo.vue';
-import { errors, setErrors } from '@/composables/errors';
-import { Protector, isEmail, minLength } from '@/composables/validates';
+import { formatTimestamp } from '@/composables';
 import { StoreUser } from '@/pages/user/stores';
+import { RouterLink, RouterView } from 'vue-router';
 
-const { data, signin } = StoreUser();
+const store = StoreUser();
 
-// Create an instance of Protector class with rules for the field
-const protector = new Protector(
-  {
-    fieldName: 'email',
-    rule: isEmail,
-    errorMessage: 'Электронная почта должна быть валидной'
-  },
-  {
-    fieldName: 'email',
-    rule: (value: string) => minLength(value, 5),
-    errorMessage: 'Электронная почта должна содержать не менее 5 символов'
-  },
-  {
-    fieldName: 'password',
-    rule: (value: string) => minLength(value, 5),
-    errorMessage: 'Пароль должен содержать не менее 5 символов'
-  }
-);
-
-const prepareSubmit = () => {
-  // Synchronous testing
-  const errors = protector.validate(data);
-  if (Object.keys(errors).length !== 0) {
-    setErrors(errors);
-    return;
-  }
-
-  signin();
-};
+store.find();
 </script>
 
 <template>
-  <main>
-    <IconLogo :size="54" />
+  <main v-if="$route.path === '/user'">
+    <RouterLink :to="{ name: 'user-create' }" title="Новая запись" class="button">
+      <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+      </svg>
 
-    <section :class="[{ error: errors.error }, 'card']">
-      <p>Доступ к панели управления можно запросить у системного администратора.</p>
+      <span>Новая запись</span>
+    </RouterLink>
 
-      <ComponentInput label="Электронная почта или логин" type="email" k="email" v-model="data.email" />
+    <h1>Пользователи</h1>
 
-      <ComponentInput label="Пароль" type="password" k="password" v-model="data.password" />
-
-      <a href="" class="link">Забыли пароль?</a>
-
-      <button type="button" @click="prepareSubmit()">Войти</button>
+    <section class="card">
+      <p>
+        Здесь размещаются все сотрудники компании которые имеют доступ к панели управления и их состояние. Для создания учетной записи сотрудника нажмите кнопку
+        <b>«Новая запись»</b> в навигационной панели. Для того чтобы отредактировать учетную запись, необходимо нажать на <b>заголовок учетной записи</b>, после чего вы попадете на
+        страницу редактирования. Удалить учетную запись можно нажав на кнопку <b>«Удалить запись»</b> на странице редактирования.
+      </p>
     </section>
+
+    <table class="card" v-if="store.users.length">
+      <thead>
+        <tr>
+          <th>ID</th>
+
+          <th>Эл. почта</th>
+
+          <th>ФИО</th>
+
+          <th>Телефон</th>
+
+          <th>Активность</th>
+        </tr>
+      </thead>
+
+      <tr v-for="item of store.users" :key="item.id">
+        <td>
+          <RouterLink :to="{ name: 'user-update', params: { id: item.email } }">
+            {{ item.id }}
+          </RouterLink>
+        </td>
+
+        <td>
+          {{ item.email }}
+        </td>
+
+        <td>
+          {{ item.fullname }}
+        </td>
+
+        <td>
+          {{ item.phone }}
+        </td>
+
+        <td>
+          {{ item.updated_at ? formatTimestamp(item.updated_at) : '' }}
+        </td>
+      </tr>
+    </table>
+
+    <h4 v-else>Список пользователей пуст</h4>
   </main>
+
+  <RouterView></RouterView>
 </template>
 
 <style scoped lang="scss">
 main {
-  display: grid;
-  gap: 48px;
-  height: 100vh;
-  overflow: hidden;
-  place-content: center;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 24px;
+  gap: 24px;
 
-  section {
-    max-width: 540px;
-    padding: clamp(24px, 4vw, 60px) clamp(24px, 4vw, 100px);
+  h4 {
+    padding: 24px;
+  }
+}
 
-    p {
-      margin: 0 0 24px;
-      text-align: center;
-    }
+section {
+  padding: 24px;
 
-    a {
-      display: inline-block;
-      font-size: 14px;
-      margin: 10px 0;
-    }
+  p {
+    max-width: 1280px;
+    text-align: justify;
+  }
+
+  b {
+    font-weight: 600;
   }
 }
 </style>

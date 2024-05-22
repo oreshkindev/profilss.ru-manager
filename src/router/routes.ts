@@ -175,15 +175,50 @@ const routes = [
     ]
   },
   {
-    path: '/user/account',
+    path: '/user',
     name: 'user',
     // route level code-splitting
-    // this generates a separate chunk (User.[hash].js) for this route
+    // this generates a separate chunk (Home.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import('@/pages/user/views/ViewIndex.vue'),
     meta: {
-      layout: 'LayoutBase'
-    }
+      layout: 'LayoutAdmin'
+    },
+    children: [
+      {
+        path: 'create',
+        name: 'user-create',
+        // route level code-splitting
+        // this generates a separate chunk (Home.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('@/pages/user/views/ViewCreate.vue'),
+        meta: {
+          layout: 'LayoutAdmin'
+        }
+      },
+      {
+        path: 'update/:id',
+        name: 'user-update',
+        // route level code-splitting
+        // this generates a separate chunk (Home.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('@/pages/user/views/ViewUpdate.vue'),
+        meta: {
+          layout: 'LayoutAdmin'
+        }
+      },
+      {
+        path: 'account',
+        name: 'user-account',
+        // route level code-splitting
+        // this generates a separate chunk (User.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('@/pages/user/views/ViewAccount.vue'),
+        meta: {
+          layout: 'LayoutBase'
+        }
+      }
+    ]
   }
 ];
 

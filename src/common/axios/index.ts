@@ -38,8 +38,6 @@ instance.interceptors.response.use(
     revokePending();
 
     if (error.response.status == 401) {
-      console.log('401');
-
       localStorage.removeItem('ssoID');
 
       router.push({ name: 'user' });

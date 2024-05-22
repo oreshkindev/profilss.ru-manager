@@ -114,14 +114,6 @@ table {
     border-bottom: 1px solid #f2f4f7;
     color: #707a8a;
     padding: 24px;
-
-    &:first-of-type {
-      width: 60px;
-    }
-
-    &:last-of-type {
-      width: 190px;
-    }
   }
 
   td {
