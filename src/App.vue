@@ -120,7 +120,7 @@ table {
     }
 
     &:last-of-type {
-      width: 180px;
+      width: 190px;
     }
   }
 

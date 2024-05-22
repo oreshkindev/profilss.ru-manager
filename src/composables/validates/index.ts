@@ -1,41 +1,39 @@
-type Rule = (value: any) => boolean;
-type FieldRule = { fieldName: string; rule: Rule; errorMessage: string };
-type ErrorRecord = Record<string, string>;
-type FieldRuleSets = Record<string, FieldRule[]>;
+type Rule<T = any> = (value: T) => boolean;
+
+interface FieldRule<T = any> {
+  fieldName: string;
+  rule: Rule<T>;
+  errorMessage: string;
+}
+
+type ErrorRecord = Record<string, string[]>;
 
 export class Protector {
-  private fields: FieldRuleSets = {};
+  private fields: Record<string, FieldRule[]> = {};
 
   constructor(...fieldRules: FieldRule[]) {
     fieldRules.forEach(({ fieldName, rule, errorMessage }) => {
-      if (!this.fields[fieldName]) {
-        this.fields[fieldName] = [];
-      }
-      this.fields[fieldName].push({
-        rule,
-        errorMessage,
-        fieldName: ''
-      });
+      this.fields[fieldName] = this.fields[fieldName] || [];
+      this.fields[fieldName].push({ rule, errorMessage, fieldName });
     });
   }
 
-  private getValueByPath(data: any, path: string): any {
-    return path.split('.').reduce((acc, part) => acc?.[part], data);
+  private getValueByPath<T>(data: Record<string, any>, path: string): T | undefined {
+    const pathParts = path.replace(/\[(\d+)]/g, '.$1').split('.');
+    return pathParts.reduce((acc, part) => acc?.[part], data) as T | undefined;
   }
 
   public validate(data: any): ErrorRecord {
-    const errors: ErrorRecord = {};
-
-    Object.entries(this.fields).forEach(([fieldName, rules]) => {
+    return Object.entries(this.fields).reduce((errors, [fieldName, rules]) => {
       const fieldValue = this.getValueByPath(data, fieldName);
-      const fieldErrors = rules.map(({ rule, errorMessage }) => (!rule(fieldValue) ? errorMessage : null)).filter(Boolean);
+      const fieldErrors = rules.filter(({ rule }) => !rule(fieldValue)).map(({ errorMessage }) => errorMessage);
 
       if (fieldErrors.length) {
-        errors[fieldName] = fieldErrors.join('; ');
+        errors[fieldName] = fieldErrors;
       }
-    });
 
-    return errors;
+      return errors;
+    }, {} as ErrorRecord);
   }
 }
 
