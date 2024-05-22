@@ -6,6 +6,9 @@ interface Product {
   file: string;
   published: boolean;
   name: string;
+  typesize: string;
+  content: string;
+  adv: string;
   created_at?: number;
 }
 

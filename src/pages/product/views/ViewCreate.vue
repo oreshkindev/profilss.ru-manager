@@ -48,7 +48,10 @@ const data = reactive<Product>({
   description: '',
   file: '',
   published: false,
-  name: ''
+  name: '',
+  typesize: '',
+  content: '',
+  adv: ''
 });
 
 const addCharacteristic = () => {
@@ -122,11 +125,23 @@ const prepareSubmit = () => {
     <section :class="[{ error: errors.error }, 'card']">
       <ComponentInput label="Название" v-model="data.name" type="text" k="name"></ComponentInput>
 
-      <ComponentTextarea label="Описание" v-model="data.description" k="description"></ComponentTextarea>
+      <ComponentTextarea label="Короткое описание" v-model="data.description" k="description"></ComponentTextarea>
 
       <ComponentCheckbox label="Опубликовать" v-model="data.published" k="published"></ComponentCheckbox>
 
       <ComponentDropdown label="Категория" :value="category.categories" v-model="data.category" k="category.name"></ComponentDropdown>
+    </section>
+
+    <section :class="[{ error: errors.error }, 'card']">
+      <ComponentTextarea label="Типоразмер" v-model="data.typesize" k="typesize"></ComponentTextarea>
+    </section>
+
+    <section :class="[{ error: errors.error }, 'card']">
+      <ComponentTextarea label="Описание" v-model="data.content" k="content"></ComponentTextarea>
+    </section>
+
+    <section :class="[{ error: errors.error }, 'card']">
+      <ComponentTextarea label="Преимущества" v-model="data.adv" k="adv"></ComponentTextarea>
     </section>
 
     <section class="card" v-for="(c, i) of data.characteristics" :key="i">

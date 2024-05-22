@@ -47,7 +47,7 @@ store.first(route.params.id);
 <template>
   <main v-if="data">
     <nav>
-      <RouterLink :to="{ name: 'post' }" title="Новая запись" class="button">
+      <RouterLink :to="{ name: 'post' }" title="Назад" class="button">
         <span>Назад</span>
       </RouterLink>
 

@@ -70,6 +70,41 @@ const routes = [
     ]
   },
   {
+    path: '/hr',
+    name: 'hr',
+    // route level code-splitting
+    // this generates a separate chunk (Home.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import('@/pages/hr/views/ViewIndex.vue'),
+    meta: {
+      layout: 'LayoutAdmin'
+    },
+    children: [
+      {
+        path: 'create',
+        name: 'hr-create',
+        // route level code-splitting
+        // this generates a separate chunk (Home.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('@/pages/hr/views/ViewCreate.vue'),
+        meta: {
+          layout: 'LayoutAdmin'
+        }
+      },
+      {
+        path: 'update/:id',
+        name: 'hr-update',
+        // route level code-splitting
+        // this generates a separate chunk (Home.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('@/pages/hr/views/ViewUpdate.vue'),
+        meta: {
+          layout: 'LayoutAdmin'
+        }
+      }
+    ]
+  },
+  {
     path: '/service',
     name: 'service',
     // route level code-splitting
