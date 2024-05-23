@@ -1,3 +1,6 @@
+import type { Category } from '../category/types';
+import type { Iso } from '../iso/types';
+
 interface Product {
   id?: number;
   category: Category;
@@ -5,11 +8,6 @@ interface Product {
   characteristic: Characteristic;
   created_at?: number;
   published: boolean;
-}
-
-interface Iso {
-  id?: number;
-  name: string;
 }
 
 interface Characteristic {
@@ -21,13 +19,4 @@ interface Characteristic {
   weight: string;
 }
 
-interface Category {
-  id?: number;
-  name: string;
-  description: string;
-  content: string;
-  adv: string;
-  file: string;
-}
-
-export type { Category, Characteristic, Iso, Product };
+export type { Characteristic, Iso, Product };

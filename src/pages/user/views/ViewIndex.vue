@@ -1,11 +1,22 @@
 <script setup lang="ts">
 import { formatTimestamp } from '@/composables';
 import { StoreUser } from '@/pages/user/stores';
+import { computed, ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 
 const store = StoreUser();
 
 store.find();
+
+const search = ref('');
+
+const users = computed(() =>
+  store.users.filter(
+    (user: any) =>
+      user.email.toLowerCase().includes(search.value.toLowerCase()) ||
+      user.fullname?.toLowerCase().includes(search.value.toLowerCase() || user.phone?.toLowerCase().includes(search.value.toLowerCase()))
+  )
+);
 </script>
 
 <template>
@@ -28,6 +39,10 @@ store.find();
       </p>
     </section>
 
+    <section class="card">
+      <input type="text" v-model="search" placeholder="Поиск по эл. почте, фио и номеру телефона" />
+    </section>
+
     <table class="card" v-if="store.users.length">
       <thead>
         <tr>
@@ -43,7 +58,7 @@ store.find();
         </tr>
       </thead>
 
-      <tr v-for="item of store.users" :key="item.id">
+      <tr v-for="item of users" :key="item.id">
         <td>
           <RouterLink :to="{ name: 'user-update', params: { id: item.email } }">
             {{ item.id }}
@@ -75,6 +90,14 @@ store.find();
 </template>
 
 <style scoped lang="scss">
+input[type='text'] {
+  border-radius: 3px;
+  border: 1px solid var(--c-border);
+  display: block;
+  padding: 12px;
+  width: 100%;
+}
+
 main {
   display: flex;
   flex-direction: column;

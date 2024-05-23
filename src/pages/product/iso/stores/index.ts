@@ -3,19 +3,19 @@ import { setErrors } from '@/composables/errors';
 import { router } from '@/router';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import type { Category } from '../types';
+import type { Iso } from '../types';
 
-export const StoreCategory = defineStore('category', () => {
-  const category = ref<Category>();
+export const StoreIso = defineStore('iso', () => {
+  const iso = ref<Iso>();
 
-  const categories = ref<Category[]>([]);
+  const isos = ref<Iso[]>([]);
 
-  const create = (data: Category) => {
+  const create = (data: Iso) => {
     axios
-      .post('/product/category', data)
+      .post('/product/iso', data)
       .then(() => {
         // redirect to dashboard
-        router.push({ name: 'category' });
+        router.push({ name: 'iso' });
       })
       .catch((error) => setErrors({ error: error }))
       .finally(() => {
@@ -25,28 +25,28 @@ export const StoreCategory = defineStore('category', () => {
 
   const find = () => {
     axios
-      .get('/product/category')
+      .get('/product/iso')
       .then((response) => {
-        categories.value = response.data;
+        isos.value = response.data;
       })
       .catch((error) => setErrors({ error: error }));
   };
 
   const first = (id: any) => {
     axios
-      .get(`/product/category/${id}`)
+      .get(`/product/iso/${id}`)
       .then((response) => {
-        category.value = response.data;
+        iso.value = response.data;
       })
       .catch((error) => setErrors({ error: error }));
   };
 
-  const remove = (id: any) => {
+  const update = (data: Iso) => {
     axios
-      .delete(`/product/category/${id}`)
+      .put(`/product/iso/${data.id}`, data)
       .then(() => {
         // redirect to dashboard
-        router.push({ name: 'category' });
+        router.push({ name: 'iso' });
       })
       .catch((error) => setErrors({ error: error }))
       .finally(() => {
@@ -54,5 +54,18 @@ export const StoreCategory = defineStore('category', () => {
       });
   };
 
-  return { create, find, first, category, categories, remove };
+  const remove = (id: any) => {
+    axios
+      .delete(`/product/iso/${id}`)
+      .then(() => {
+        // redirect to dashboard
+        router.push({ name: 'iso' });
+      })
+      .catch((error) => setErrors({ error: error }))
+      .finally(() => {
+        find();
+      });
+  };
+
+  return { create, find, first, iso, isos, update, remove };
 });

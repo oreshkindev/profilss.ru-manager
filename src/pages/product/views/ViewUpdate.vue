@@ -4,11 +4,12 @@ import ComponentDropdown from '@/components/ComponentDropdown.vue';
 import ComponentInput from '@/components/ComponentInput.vue';
 import { errors, setErrors } from '@/composables/errors';
 import { Protector, isNonEmptyString } from '@/composables/validates';
+import { StoreCategory } from '@/pages/product/category/stores';
+import { StoreIso } from '@/pages/product/iso/stores';
+import type { Iso } from '@/pages/product/iso/types';
 import { StoreProduct } from '@/pages/product/stores';
-import { StoreCategory } from '@/pages/product/stores/category';
 import { StoreCharacteristic } from '@/pages/product/stores/characteristic';
-import { StoreISO } from '@/pages/product/stores/iso';
-import type { Iso, Product } from '@/pages/product/types';
+import type { Product } from '@/pages/product/types';
 import { computed } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 
@@ -20,7 +21,7 @@ const data = computed(() => store.product);
 
 const category = StoreCategory();
 const characteristic = StoreCharacteristic();
-const iso = StoreISO();
+const iso = StoreIso();
 
 category.find();
 characteristic.find();

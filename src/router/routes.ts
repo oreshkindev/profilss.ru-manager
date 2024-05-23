@@ -171,6 +171,76 @@ const routes = [
         meta: {
           layout: 'LayoutAdmin'
         }
+      },
+      {
+        path: '/category',
+        name: 'category',
+        // route level code-splitting
+        // this generates a separate chunk (Home.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('@/pages/product/category/views/ViewIndex.vue'),
+        meta: {
+          layout: 'LayoutAdmin'
+        },
+        children: [
+          {
+            path: 'create',
+            name: 'category-create',
+            // route level code-splitting
+            // this generates a separate chunk (Home.[hash].js) for this route
+            // which is lazy-loaded when the route is visited.
+            component: () => import('@/pages/product/category/views/ViewCreate.vue'),
+            meta: {
+              layout: 'LayoutAdmin'
+            }
+          },
+          {
+            path: 'update/:id',
+            name: 'category-update',
+            // route level code-splitting
+            // this generates a separate chunk (Home.[hash].js) for this route
+            // which is lazy-loaded when the route is visited.
+            component: () => import('@/pages/product/category/views/ViewUpdate.vue'),
+            meta: {
+              layout: 'LayoutAdmin'
+            }
+          }
+        ]
+      },
+      {
+        path: '/iso',
+        name: 'iso',
+        // route level code-splitting
+        // this generates a separate chunk (Home.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('@/pages/product/iso/views/ViewIndex.vue'),
+        meta: {
+          layout: 'LayoutAdmin'
+        },
+        children: [
+          {
+            path: 'create',
+            name: 'iso-create',
+            // route level code-splitting
+            // this generates a separate chunk (Home.[hash].js) for this route
+            // which is lazy-loaded when the route is visited.
+            component: () => import('@/pages/product/iso/views/ViewCreate.vue'),
+            meta: {
+              layout: 'LayoutAdmin'
+            }
+          },
+          {
+            path: 'update/:id',
+            name: 'iso-update',
+            // route level code-splitting
+            // this generates a separate chunk (Home.[hash].js) for this route
+            // which is lazy-loaded when the route is visited.
+            component: () => import('@/pages/product/iso/views/ViewUpdate.vue'),
+            meta: {
+              layout: 'LayoutAdmin'
+            }
+          }
+        ]
       }
     ]
   },

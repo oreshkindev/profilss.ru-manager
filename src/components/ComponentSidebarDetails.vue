@@ -1,16 +1,23 @@
 <script setup lang="ts">
-// do smth
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 </script>
 
 <template>
   <nav>
-    <ul>
-      <li>Lorem ipsum, dolor sit amet</li>
-      <li>Lorem ipsum, dolor sit amet</li>
-      <li>Lorem ipsum, dolor sit amet</li>
-      <li>Lorem ipsum, dolor sit amet</li>
-      <li>Lorem ipsum, dolor sit amet</li>
-      <li>Lorem ipsum, dolor sit amet</li>
+    <ul v-if="route.name === 'product'">
+      <li>
+        <RouterLink :to="{ name: 'category' }" title="Новая запись"> Категории </RouterLink>
+      </li>
+
+      <li>
+        <RouterLink :to="{ name: 'iso' }" title="Новая запись"> ГОСТ стандарты</RouterLink>
+      </li>
+    </ul>
+
+    <ul v-else>
+      <li>Список пуст</li>
     </ul>
   </nav>
 </template>
@@ -25,6 +32,10 @@ nav {
 
   ul {
     list-style: none;
+
+    li {
+      margin-bottom: 12px;
+    }
   }
 }
 </style>
