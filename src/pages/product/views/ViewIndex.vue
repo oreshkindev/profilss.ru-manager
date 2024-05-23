@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import { formatTimestamp } from '@/composables';
 import { StoreProduct } from '@/pages/product/stores';
+import { computed, ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 
 const store = StoreProduct();
+
+const search = ref('');
+
+const products = computed(() =>
+  store.products.filter(
+    (product: any) => product.characteristic.size.toLowerCase().includes(search.value.toLowerCase()) || product.category.name.toLowerCase().includes(search.value.toLowerCase())
+  )
+);
 
 store.find();
 </script>
@@ -28,22 +37,48 @@ store.find();
       </p>
     </section>
 
+    <section class="card">
+      <input type="text" v-model="search" placeholder="Поиск по товарным позициям и категориям" />
+    </section>
+
     <table class="card" v-if="store.products.length">
       <thead>
         <tr>
           <th>ID</th>
-          <th>Название</th>
+
+          <th>Типоразмер</th>
+
+          <th>Категория</th>
+
+          <th>Стандарты</th>
+
           <th>Опубликован</th>
+
           <th>Дата публикации</th>
         </tr>
       </thead>
 
-      <tr v-for="item of store.products" :key="item.id">
+      <tr v-for="item of products" :key="item.id">
         <td>{{ item.id }}</td>
+
         <td>
-          <RouterLink :to="{ name: 'product-update', params: { id: item.id } }">{{ item.name }}</RouterLink>
+          <RouterLink :to="{ name: 'product-update', params: { id: item.id } }">
+            {{ item.characteristic.size }}
+          </RouterLink>
         </td>
-        <td>{{ item.published ? 'Да' : 'Нет' }}</td>
+
+        <td>
+          {{ item.category.name }}
+        </td>
+
+        <td>
+          <span v-for="(el, index) in item.isos" :key="el.id"> {{ index < item.isos.length - 1 ? el.name + ', ' : el.name }} </span>
+        </td>
+
+        <td>
+          {{ item.published ? 'Да' : 'Нет' }}
+        </td>
+
         <td>
           {{ item.created_at ? formatTimestamp(item.created_at) : '' }}
         </td>
@@ -57,6 +92,14 @@ store.find();
 </template>
 
 <style scoped lang="scss">
+input[type='text'] {
+  border-radius: 3px;
+  border: 1px solid var(--c-border);
+  display: block;
+  padding: 12px;
+  width: 100%;
+}
+
 main {
   display: flex;
   flex-direction: column;

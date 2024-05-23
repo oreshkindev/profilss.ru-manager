@@ -25,7 +25,6 @@ const model = defineModel<any>();
 <style scoped lang="scss">
 label {
   display: block;
-  margin: 12px 0 0;
 }
 
 input[type='text'],

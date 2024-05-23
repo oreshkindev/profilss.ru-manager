@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import ComponentCheckbox from '@/components/ComponentCheckbox.vue';
 import ComponentDropdown from '@/components/ComponentDropdown.vue';
-import ComponentFileUpload from '@/components/ComponentFileUpload.vue';
 import ComponentInput from '@/components/ComponentInput.vue';
-import ComponentTextarea from '@/components/ComponentTextarea.vue';
 import { errors, setErrors } from '@/composables/errors';
-import { Protector, isNonEmptyString, minLength } from '@/composables/validates';
+import { Protector, isNonEmptyString } from '@/composables/validates';
 import { StoreProduct } from '@/pages/product/stores';
 import { StoreCategory } from '@/pages/product/stores/category';
 import { StoreCharacteristic } from '@/pages/product/stores/characteristic';
-import { StoreMeasure } from '@/pages/product/stores/measure';
-import type { Category, Characteristic, Measure, Product, ProductCharacteristics } from '@/pages/product/types';
+import { StoreISO } from '@/pages/product/stores/iso';
+import type { Category, Characteristic, Iso, Product } from '@/pages/product/types';
 import { reactive } from 'vue';
 import { RouterLink } from 'vue-router';
 
@@ -18,69 +16,62 @@ const { create } = StoreProduct();
 
 const category = StoreCategory();
 const characteristic = StoreCharacteristic();
-const measure = StoreMeasure();
+const iso = StoreISO();
 
 category.find();
 characteristic.find();
-measure.find();
+iso.find();
 
 const data = reactive<Product>({
-  characteristics: [
-    {
-      characteristic: {
-        id: 0,
-        name: '',
-        description: ''
-      } as Characteristic,
-      measure: {
-        id: 0,
-        name: '',
-        code: ''
-      } as Measure,
-      value: ''
-    }
-  ] as ProductCharacteristics[],
   category: {
     id: 0,
     name: '',
-    description: ''
+    description: '',
+    content: '',
+    adv: '',
+    file: ''
   } as Category,
-  description: '',
-  file: '',
-  published: false,
-  name: '',
-  typesize: '',
-  content: '',
-  adv: ''
+  isos: [
+    {
+      id: 0,
+      name: ''
+    } as Iso
+  ] as Iso[],
+  characteristic: {
+    id: 0,
+    max_price: '',
+    price: '',
+    size: '',
+    thickness: '',
+    weight: ''
+  } as Characteristic,
+  published: false
 });
 
-const addCharacteristic = () => {
-  data.characteristics.push({
-    characteristic: {
-      id: 0,
-      name: '',
-      description: ''
-    } as Characteristic,
-    measure: {
-      id: 0,
-      name: '',
-      code: ''
-    } as Measure,
-    value: ''
-  });
+const addISO = () => {
+  data.isos.push({
+    id: 0,
+    name: ''
+  } as Iso);
+};
+
+const removeISO = (index: number) => {
+  if (data) {
+    data.isos.splice(index, 1);
+  }
 };
 
 // Create an instance of Protector class with rules for the field
 const protector = new Protector(
   {
-    fieldName: 'name',
-    rule: (value: string) => minLength(value, 5),
-    errorMessage: 'Название должно содержать не менее 5 символов'
+    fieldName: 'characteristic.weight',
+    rule: (value: string) => isNonEmptyString(value),
+    errorMessage: 'Вес 1 п/м - это обязательное поле'
   },
   {
-    fieldName: 'description',
-    rule: (value: string) => minLength(value, 5),
-    errorMessage: 'Описание должно содержать не менее 5 символов'
+    fieldName: 'characteristic.size',
+    rule: (value: string) => isNonEmptyString(value),
+    errorMessage: 'Типоразмер - это обязательное поле'
   },
   {
     fieldName: 'category.name',
@@ -100,7 +91,7 @@ const prepareSubmit = () => {
   create(data);
 };
 </script>
-<!-- TODO дропдауны -->
+
 <template>
   <main>
     <nav>
@@ -118,46 +109,40 @@ const prepareSubmit = () => {
       </p>
     </section>
 
-    <section class="card">
-      <ComponentFileUpload v-model:file="data.file" :filename="data.file" accepted="image/png, image/jpeg"></ComponentFileUpload>
-    </section>
-
     <section :class="[{ error: errors.error }, 'card']">
-      <ComponentInput label="Название" v-model="data.name" type="text" k="name"></ComponentInput>
-
-      <ComponentTextarea label="Короткое описание" v-model="data.description" k="description"></ComponentTextarea>
+      <ComponentDropdown label="Категория" :value="category.categories" v-model="data.category" k="category.name"></ComponentDropdown>
 
       <ComponentCheckbox label="Опубликовать" v-model="data.published" k="published"></ComponentCheckbox>
-
-      <ComponentDropdown label="Категория" :value="category.categories" v-model="data.category" k="category.name"></ComponentDropdown>
     </section>
 
     <section :class="[{ error: errors.error }, 'card']">
-      <ComponentTextarea label="Типоразмер" v-model="data.typesize" k="typesize"></ComponentTextarea>
+      <ComponentInput label="Типоразмер" v-model="data.characteristic.size" type="text" k="characteristic.size"></ComponentInput>
+
+      <ComponentInput label="Толщина стенки" v-model="data.characteristic.thickness" type="text" k=""></ComponentInput>
+
+      <ComponentInput label="Вес 1 п/м" v-model="data.characteristic.weight" type="text" k="characteristic.weight"></ComponentInput>
+
+      <ComponentInput label="Цена за 1 п/м c НДС" v-model="data.characteristic.price" type="text" k=""></ComponentInput>
+
+      <ComponentInput label="Цена за 1 тонну с НДС" v-model="data.characteristic.max_price" type="text" k=""></ComponentInput>
     </section>
 
-    <section :class="[{ error: errors.error }, 'card']">
-      <ComponentTextarea label="Описание" v-model="data.content" k="content"></ComponentTextarea>
+    <section class="card with__control" v-for="(c, index) of data.isos" :key="index">
+      <ComponentDropdown label="ГОСТ" :value="iso.isos" v-model="data.isos[index]" k=""></ComponentDropdown>
+
+      <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" @click="removeISO(index)">
+        <path
+          d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"
+        />
+      </svg>
     </section>
 
-    <section :class="[{ error: errors.error }, 'card']">
-      <ComponentTextarea label="Преимущества" v-model="data.adv" k="adv"></ComponentTextarea>
-    </section>
-
-    <section class="card" v-for="(c, i) of data.characteristics" :key="i">
-      <ComponentDropdown label="Характеристика" :value="characteristic.characteristics" v-model="data.characteristics[i].characteristic" k=""></ComponentDropdown>
-
-      <ComponentDropdown label="Ед. измерения" :value="measure.measures" v-model="data.characteristics[i].measure" k=""></ComponentDropdown>
-
-      <ComponentInput label="Значение" v-model="data.characteristics[i].value" type="text" k=""></ComponentInput>
-    </section>
-
-    <button type="button" v-on:click="addCharacteristic()" style="margin: auto">
+    <button type="button" v-on:click="addISO()" style="margin: auto">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
       </svg>
 
-      <span>Добавить характеристику</span>
+      <span>Добавить ГОСТ</span>
     </button>
 
     <button type="button" v-on:click="prepareSubmit()">
@@ -173,6 +158,20 @@ const prepareSubmit = () => {
 </template>
 
 <style scoped lang="scss">
+.with__control {
+  display: grid;
+  gap: 0 20px;
+  grid-template: auto / 1fr auto;
+
+  :deep(label) {
+    grid-column: 1 / -1;
+  }
+
+  svg {
+    margin: auto;
+  }
+}
+
 main {
   overflow: auto;
 }

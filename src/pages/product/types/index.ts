@@ -1,39 +1,33 @@
 interface Product {
   id?: number;
-  characteristics: ProductCharacteristics[];
   category: Category;
-  description: string;
-  file: string;
-  published: boolean;
-  name: string;
-  typesize: string;
-  content: string;
-  adv: string;
-  created_at?: number;
-}
-
-interface ProductCharacteristics {
+  isos: Iso[];
   characteristic: Characteristic;
-  measure: Measure;
-  value: string;
+  created_at?: number;
+  published: boolean;
 }
 
-interface Measure {
-  id: number;
-  code: string;
+interface Iso {
+  id?: number;
   name: string;
 }
 
 interface Characteristic {
-  id: number;
-  name: string;
-  description: string;
+  id?: number;
+  max_price: string;
+  price: string;
+  size: string;
+  thickness: string;
+  weight: string;
 }
 
 interface Category {
-  id: number;
+  id?: number;
   name: string;
   description: string;
+  content: string;
+  adv: string;
+  file: string;
 }
 
-export type { Category, Characteristic, Measure, Product, ProductCharacteristics };
+export type { Category, Characteristic, Iso, Product };

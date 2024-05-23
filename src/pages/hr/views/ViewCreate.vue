@@ -31,6 +31,24 @@ const addRequirements = () => {
   data.requirements.push('');
 };
 
+const removeDuties = (index: number) => {
+  if (data) {
+    data.duties.splice(index, 1);
+  }
+};
+
+const removeConditions = (index: number) => {
+  if (data) {
+    data.conditions.splice(index, 1);
+  }
+};
+
+const removeRequirements = (index: number) => {
+  if (data) {
+    data.requirements.splice(index, 1);
+  }
+};
+
 // Create an instance of Protector class with rules for the field
 const protector = new Protector(
   {
@@ -111,8 +129,14 @@ const prepareSubmit = () => {
       <ComponentCheckbox label="Опубликовать" v-model="data.published" k="published"></ComponentCheckbox>
     </section>
 
-    <section class="card" v-for="(c, i) of data.duties" :key="i">
-      <ComponentInput label="Обязанности" v-model="data.duties[i]" type="text" k="duties[0]"></ComponentInput>
+    <section class="card with__control" v-for="(c, index) of data.duties" :key="index">
+      <ComponentInput label="Обязанности" v-model="data.duties[index]" type="text" k="duties[0]"></ComponentInput>
+
+      <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" @click="removeDuties(index)">
+        <path
+          d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"
+        />
+      </svg>
     </section>
 
     <button type="button" v-on:click="addDuties()" style="margin: auto">
@@ -123,8 +147,14 @@ const prepareSubmit = () => {
       <span>Добавить поле</span>
     </button>
 
-    <section class="card" v-for="(c, i) of data.requirements" :key="i">
-      <ComponentInput label="Требования" v-model="data.requirements[i]" type="text" k="requirements[0]"></ComponentInput>
+    <section class="card with__control" v-for="(c, index) of data.requirements" :key="index">
+      <ComponentInput label="Требования" v-model="data.requirements[index]" type="text" k="requirements[0]"></ComponentInput>
+
+      <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" @click="removeRequirements(index)">
+        <path
+          d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"
+        />
+      </svg>
     </section>
 
     <button type="button" v-on:click="addRequirements()" style="margin: auto">
@@ -135,8 +165,14 @@ const prepareSubmit = () => {
       <span>Добавить поле</span>
     </button>
 
-    <section class="card" v-for="(c, i) of data.conditions" :key="i">
-      <ComponentInput label="Условия" v-model="data.conditions[i]" type="text" k="conditions[0]"></ComponentInput>
+    <section class="card with__control" v-for="(c, index) of data.conditions" :key="index">
+      <ComponentInput label="Условия" v-model="data.conditions[index]" type="text" k="conditions[0]"></ComponentInput>
+
+      <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" @click="removeConditions(index)">
+        <path
+          d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"
+        />
+      </svg>
     </section>
 
     <button type="button" v-on:click="addConditions()" style="margin: auto">
@@ -160,6 +196,20 @@ const prepareSubmit = () => {
 </template>
 
 <style scoped lang="scss">
+.with__control {
+  display: grid;
+  gap: 0 20px;
+  grid-template: auto / 1fr auto;
+
+  :deep(label) {
+    grid-column: 1 / -1;
+  }
+
+  svg {
+    margin: auto;
+  }
+}
+
 main {
   overflow: auto;
 }

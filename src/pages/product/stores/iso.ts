@@ -3,19 +3,19 @@ import { setErrors } from '@/composables/errors';
 import { router } from '@/router';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import type { Measure } from '../types';
+import type { ISO } from '../types';
 
-export const StoreMeasure = defineStore('measure', () => {
-  const measure = ref<Measure>();
+export const StoreISO = defineStore('iso', () => {
+  const iso = ref<ISO>();
 
-  const measures = ref<Measure[]>([]);
+  const isos = ref<ISO[]>([]);
 
-  const create = (data: Measure) => {
+  const create = (data: ISO) => {
     axios
-      .post('/product/measure', data)
+      .post('/product/iso', data)
       .then(() => {
         // redirect to dashboard
-        router.push({ name: 'measure' });
+        router.push({ name: 'iso' });
       })
       .catch((error) => setErrors({ error: error }))
       .finally(() => {
@@ -25,28 +25,28 @@ export const StoreMeasure = defineStore('measure', () => {
 
   const find = () => {
     axios
-      .get('/product/measure')
+      .get('/product/iso')
       .then((response) => {
-        measures.value = response.data;
+        isos.value = response.data;
       })
       .catch((error) => setErrors({ error: error }));
   };
 
   const first = (id: any) => {
     axios
-      .get(`/product/measure/${id}`)
+      .get(`/product/iso/${id}`)
       .then((response) => {
-        measure.value = response.data;
+        iso.value = response.data;
       })
       .catch((error) => setErrors({ error: error }));
   };
 
   const remove = (id: any) => {
     axios
-      .delete(`/product/measure/${id}`)
+      .delete(`/product/iso/${id}`)
       .then(() => {
         // redirect to dashboard
-        router.push({ name: 'measure' });
+        router.push({ name: 'iso' });
       })
       .catch((error) => setErrors({ error: error }))
       .finally(() => {
@@ -54,5 +54,5 @@ export const StoreMeasure = defineStore('measure', () => {
       });
   };
 
-  return { create, find, first, measure, measures, remove };
+  return { create, find, first, iso, isos, remove };
 });
