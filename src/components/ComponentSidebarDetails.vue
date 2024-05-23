@@ -6,13 +6,20 @@ const route = useRoute();
 
 <template>
   <nav>
+    <h3>Составные разделы</h3>
     <ul v-if="route.name === 'product'">
       <li>
-        <RouterLink :to="{ name: 'category' }" title="Новая запись"> Категории </RouterLink>
+        <RouterLink :to="{ name: 'category' }" title="Категории"> Категории </RouterLink>
       </li>
 
       <li>
-        <RouterLink :to="{ name: 'iso' }" title="Новая запись"> ГОСТ стандарты</RouterLink>
+        <RouterLink :to="{ name: 'iso' }" title="ГОСТ стандарты"> ГОСТ стандарты</RouterLink>
+      </li>
+    </ul>
+
+    <ul v-else-if="route.name === 'user'">
+      <li>
+        <RouterLink :to="{ name: 'hr' }" title="Вакансии"> Вакансии </RouterLink>
       </li>
     </ul>
 
@@ -23,6 +30,10 @@ const route = useRoute();
 </template>
 
 <style scoped lang="scss">
+h3 {
+  font-size: 18px;
+}
+
 nav {
   background-color: #ffffff;
   border-right: 1px solid #dfe3e8;
@@ -32,9 +43,16 @@ nav {
 
   ul {
     list-style: none;
+    padding: 24px 0;
 
     li {
       margin-bottom: 12px;
+
+      a {
+        &:hover {
+          color: var(--c-scheme);
+        }
+      }
     }
   }
 }
