@@ -83,7 +83,11 @@ const prepareSubmit = () => {
     </section>
 
     <section class="card">
-      <ComponentFileUpload v-model:file="data.file" :filename="data.file" accepted="image/png, image/jpeg"></ComponentFileUpload>
+      <ComponentFileUpload v-model:file="data.file.preview" :filename="data.file.preview" type="image" accepted="image/png, image/jpeg"></ComponentFileUpload>
+    </section>
+
+    <section class="card">
+      <ComponentFileUpload v-model:file="data.file.video" :filename="data.file.video" type="video" accepted="video/*"></ComponentFileUpload>
     </section>
 
     <button type="button" v-on:click="prepareSubmit()">

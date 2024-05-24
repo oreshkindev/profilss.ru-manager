@@ -4,9 +4,15 @@ interface Category {
   description: string;
   content: string;
   adv: string;
-  file: string;
+  file: File;
   published: boolean;
   created_at?: number;
 }
 
-export type { Category };
+interface File {
+  id?: number;
+  preview: string;
+  video: string;
+}
+
+export type { Category, File };

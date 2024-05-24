@@ -6,7 +6,7 @@ import ComponentTextarea from '@/components/ComponentTextarea.vue';
 import { errors, setErrors } from '@/composables/errors';
 import { Protector, isNonEmptyString } from '@/composables/validates';
 import { StoreCategory } from '@/pages/product/category/stores';
-import type { Category } from '@/pages/product/category/types';
+import type { Category, File } from '@/pages/product/category/types';
 import { reactive } from 'vue';
 import { RouterLink } from 'vue-router';
 
@@ -17,7 +17,10 @@ const data = reactive<Category>({
   description: '',
   content: '',
   adv: '',
-  file: '',
+  file: {
+    preview: '',
+    video: ''
+  } as File,
   published: false
 });
 
@@ -59,8 +62,8 @@ const prepareSubmit = () => {
 
     <section class="card">
       <p>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis vel vero suscipit voluptas nobis! Tempore voluptas eum qui obcaecati blanditiis nemo nostrum, laboriosam
-        porro necessitatibus reiciendis officia nam, molestiae aliquid!
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam veritatis molestias libero magnam quod impedit, illo veniam ipsam facilis vitae fugit, repellendus maiores
+        dolor optio delectus debitis officia voluptatum! Sapiente.
       </p>
     </section>
 
@@ -77,7 +80,11 @@ const prepareSubmit = () => {
     </section>
 
     <section class="card">
-      <ComponentFileUpload v-model:file="data.file" :filename="data.file" accepted="image/png, image/jpeg"></ComponentFileUpload>
+      <ComponentFileUpload v-model:file="data.file.preview" :filename="data.file.preview" type="image" accepted="image/png, image/jpeg"></ComponentFileUpload>
+    </section>
+
+    <section class="card">
+      <ComponentFileUpload v-model:file="data.file.video" :filename="data.file.video" type="video" accepted="video/*"></ComponentFileUpload>
     </section>
 
     <button type="button" v-on:click="prepareSubmit()">

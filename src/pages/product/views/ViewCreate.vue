@@ -5,7 +5,7 @@ import ComponentInput from '@/components/ComponentInput.vue';
 import { errors, setErrors } from '@/composables/errors';
 import { Protector, isNonEmptyString } from '@/composables/validates';
 import { StoreCategory } from '@/pages/product/category/stores';
-import type { Category } from '@/pages/product/category/types';
+import type { Category, File } from '@/pages/product/category/types';
 import { StoreIso } from '@/pages/product/iso/stores';
 import type { Iso } from '@/pages/product/iso/types';
 import { StoreProduct } from '@/pages/product/stores';
@@ -31,7 +31,10 @@ const data = reactive<Product>({
     description: '',
     content: '',
     adv: '',
-    file: ''
+    file: {
+      preview: '',
+      video: ''
+    } as File
   } as Category,
   isos: [
     {

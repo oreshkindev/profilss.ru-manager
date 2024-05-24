@@ -13,6 +13,7 @@ const api: string = import.meta.env.VITE_HTTP;
 interface Props {
   filename?: string;
   accepted: string;
+  type: string;
 }
 
 interface Emits {
@@ -59,17 +60,26 @@ const prepareUpload = (event: any): void => {
 </script>
 
 <template>
-  <section>
-    <label @change="prepareUpload">
-      <img v-if="file.blob || props.filename" :src="file.blob !== '' ? file.blob : `${api}/out/${props.filename}.webp`" :alt="props.filename" />
+  <label v-on:change="prepareUpload">
+    <template v-if="props.type === 'image' && file.blob">
+      <img :src="file.blob" alt="" />
+    </template>
 
-      <p v-else>Прикрепить файл</p>
+    <template v-else-if="props.type === 'image' && props.filename !== ''">
+      <img :src="`${api}/out/${props.filename}.webp`" alt="" />
+    </template>
 
-      <input name="file" type="file" :accept="props.accepted" />
-    </label>
+    <template v-else-if="props.type === 'video' && file.blob">
+      <video autoplay loop :poster="file.blob">
+        <source :src="file.blob" />
+        Your browser does not support the video tag.
+      </video>
+    </template>
 
-    <!-- <span v-if="store.message">{{ store.message }}</span> -->
-  </section>
+    <p v-else>Прикрепить {{ props.type === 'image' ? 'изображение' : 'видео' }}</p>
+
+    <input name="file" type="file" :accept="props.accepted" />
+  </label>
 </template>
 
 <style lang="scss" scoped>
@@ -95,6 +105,10 @@ label {
     height: 250px;
     object-fit: contain;
     width: 100%;
+  }
+
+  video {
+    max-width: 400px;
   }
 
   p {
