@@ -52,13 +52,13 @@ const prepareSubmit = () => {
     <section :class="[{ error: errors.error }, 'card']">
       <p>Доступ к панели управления можно запросить у системного администратора.</p>
 
-      <ComponentInput label="Электронная почта или логин" type="email" k="email" v-model="data.email" />
+      <ComponentInput label="Электронная почта или логин" type="email" required="email" v-model="data.email" />
 
-      <ComponentInput label="Пароль" type="password" k="password" v-model="data.password" />
+      <ComponentInput label="Пароль" type="password" required="password" v-model="data.password" />
 
       <a href="" class="link">Забыли пароль?</a>
 
-      <button type="button" @click="prepareSubmit()">Войти</button>
+      <button type="button" v-on:click="prepareSubmit()">Войти</button>
     </section>
   </main>
 </template>

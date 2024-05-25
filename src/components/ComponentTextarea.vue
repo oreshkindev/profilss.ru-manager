@@ -2,7 +2,7 @@
 import { errors } from '@/composables/errors';
 
 interface Input {
-  k: string;
+  required?: string;
   label: string;
 }
 
@@ -12,12 +12,18 @@ const model = defineModel<any>();
 </script>
 
 <template>
-  <label :for="props.k">{{ props.label }}</label>
+  <label>{{ props.label }}</label>
 
-  <textarea :class="{ error: errors[k] }" rows="5" :id="props.k" v-model="model"></textarea>
+  <template v-if="props.required">
+    <textarea :class="{ error: errors[props.required] }" rows="5" v-model="model"></textarea>
 
-  <template v-if="errors[props.k]">
-    <span v-for="error in errors[props.k]" :key="error">{{ error }}</span>
+    <template v-if="errors[props.required]">
+      <span v-for="error in errors[props.required]" :key="error">{{ error }}</span>
+    </template>
+  </template>
+
+  <template v-else>
+    <textarea rows="5" v-model="model"></textarea>
   </template>
 </template>
 

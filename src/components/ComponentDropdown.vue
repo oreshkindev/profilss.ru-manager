@@ -3,7 +3,7 @@ import { errors } from '@/composables/errors';
 import { ref } from 'vue';
 
 interface Input {
-  k: any;
+  required?: string;
   label: string;
   value: any[];
 }
@@ -16,22 +16,38 @@ const model = defineModel<any>();
 </script>
 
 <template>
-  <label :for="props.k">{{ props.label }}</label>
+  <label>{{ props.label }}</label>
 
-  <ul :class="{ error: errors[props.k] }">
-    <li @click="visible = !visible" :id="props.k">
-      {{ model.name || 'Выбрать из списка' }}
-    </li>
-
-    <ul v-if="visible">
-      <li v-for="item in props.value" :key="item" @click="(model = item), (visible = false)">
-        {{ item.name }}
+  <template v-if="props.required">
+    <ul :class="{ error: errors[props.required] }">
+      <li v-on:click="visible = !visible">
+        {{ model.name || 'Выбрать из списка' }}
       </li>
-    </ul>
-  </ul>
 
-  <template v-if="errors[props.k]">
-    <span v-for="error in errors[props.k]" :key="error">{{ error }}</span>
+      <ul v-if="visible">
+        <li v-for="item in props.value" :key="item" v-on:click="(model = item), (visible = false)">
+          {{ item.name }}
+        </li>
+      </ul>
+    </ul>
+
+    <template v-if="errors[props.required]">
+      <span v-for="error in errors[props.required]" :key="error">{{ error }}</span>
+    </template>
+  </template>
+
+  <template v-else>
+    <ul>
+      <li v-on:click="visible = !visible">
+        {{ model.name || 'Выбрать из списка' }}
+      </li>
+
+      <ul v-if="visible">
+        <li v-for="item in props.value" :key="item" v-on:click="(model = item), (visible = false)">
+          {{ item.name }}
+        </li>
+      </ul>
+    </ul>
   </template>
 </template>
 

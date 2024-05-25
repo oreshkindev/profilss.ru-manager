@@ -107,21 +107,21 @@ const prepareSubmit = () => {
     </section>
 
     <section :class="[{ error: errors.error }, 'card']">
-      <ComponentDropdown label="Категория" :value="category.categories" v-model="data.category" k="category.name"></ComponentDropdown>
+      <ComponentDropdown label="Категория" :value="category.categories" v-model="data.category" required="category.name"></ComponentDropdown>
 
-      <ComponentCheckbox label="Опубликовать" v-model="data.published" k="published"></ComponentCheckbox>
+      <ComponentCheckbox label="Опубликовать" v-model="data.published" required="published"></ComponentCheckbox>
     </section>
 
     <section :class="[{ error: errors.error }, 'card']">
-      <ComponentInput label="Типоразмер" v-model="data.characteristic.size" type="text" k="characteristic.size"></ComponentInput>
+      <ComponentInput label="Типоразмер" v-model="data.characteristic.size" type="text" required="characteristic.size"></ComponentInput>
 
-      <ComponentInput label="Толщина стенки" v-model="data.characteristic.thickness" type="text" k=""></ComponentInput>
+      <ComponentInput label="Толщина стенки" v-model="data.characteristic.thickness" type="text" required=""></ComponentInput>
 
-      <ComponentInput label="Вес 1 п/м" v-model="data.characteristic.weight" type="text" k="characteristic.weight"></ComponentInput>
+      <ComponentInput label="Вес 1 п/м" v-model="data.characteristic.weight" type="text" required="characteristic.weight"></ComponentInput>
 
-      <ComponentInput label="Цена за 1 п/м c НДС" v-model="data.characteristic.price" type="text" k=""></ComponentInput>
+      <ComponentInput label="Цена за 1 п/м c НДС" v-model="data.characteristic.price" type="text" required=""></ComponentInput>
 
-      <ComponentInput label="Цена за 1 тонну с НДС" v-model="data.characteristic.max_price" type="text" k=""></ComponentInput>
+      <ComponentInput label="Цена за 1 тонну с НДС" v-model="data.characteristic.max_price" type="text" required=""></ComponentInput>
     </section>
 
     <button type="button" v-on:click="prepareSubmit()">

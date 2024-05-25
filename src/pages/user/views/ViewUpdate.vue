@@ -69,13 +69,13 @@ const prepareSubmit = () => {
     </section>
 
     <section :class="[{ error: errors.error }, 'card']">
-      <ComponentInput label="Электронная почта" type="email" k="email" v-model="data.email" />
+      <ComponentInput label="Электронная почта" type="email" required="email" v-model="data.email" />
 
-      <ComponentInput label="ФИО" v-model="data.fullname" type="text" k="fullname"></ComponentInput>
+      <ComponentInput label="ФИО" v-model="data.fullname" type="text" required="fullname"></ComponentInput>
 
-      <ComponentInput label="Номер телефона" v-model="data.phone" type="text" k="phone"></ComponentInput>
+      <ComponentInput label="Номер телефона" v-model="data.phone" type="text" required="phone"></ComponentInput>
 
-      <ComponentInput label="Новый пароль" v-model="data.password" type="text" k="password"></ComponentInput>
+      <ComponentInput label="Новый пароль" v-model="data.password" type="text" required="password"></ComponentInput>
     </section>
 
     <button type="button" v-on:click="prepareSubmit()">

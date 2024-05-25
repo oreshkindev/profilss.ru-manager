@@ -2,7 +2,7 @@
 import { errors } from '@/composables/errors';
 
 interface Input {
-  k: string;
+  required?: string;
   label: string;
 }
 
@@ -13,12 +13,18 @@ const model = defineModel<any>();
 
 <template>
   <div>
-    <input :class="{ error: errors[props.k] }" type="checkbox" :id="props.k" v-model="model" />
+    <label>{{ props.label }}</label>
 
-    <label :for="props.k">{{ props.label }}</label>
+    <template v-if="props.required">
+      <input :class="{ error: errors[props.required] }" type="checkbox" v-model="model" />
 
-    <template v-if="errors[props.k]">
-      <span v-for="error in errors[props.k]" :key="error">{{ error }}</span>
+      <template v-if="errors[props.required]">
+        <span v-for="error in errors[props.required]" :key="error">{{ error }}</span>
+      </template>
+    </template>
+
+    <template v-else>
+      <input type="checkbox" v-model="model" />
     </template>
   </div>
 </template>

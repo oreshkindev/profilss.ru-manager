@@ -70,15 +70,15 @@ const prepareSubmit = () => {
     </section>
 
     <section :class="[{ error: errors.error }, 'card']">
-      <ComponentInput label="Название" v-model="data.name" type="text" k="name"></ComponentInput>
+      <ComponentInput label="Название" v-model="data.name" type="text" required="name"></ComponentInput>
 
-      <ComponentTextarea label="Описание" v-model="data.description" k="description"></ComponentTextarea>
+      <ComponentTextarea label="Описание" v-model="data.description" required="description"></ComponentTextarea>
 
-      <ComponentTextarea label="Содержимое публикации" v-model="data.content" k="content"></ComponentTextarea>
+      <ComponentTextarea label="Содержимое публикации" v-model="data.content" required="content"></ComponentTextarea>
 
-      <ComponentTextarea label="Цитата" v-model="data.quote" k="quote"></ComponentTextarea>
+      <ComponentTextarea label="Цитата" v-model="data.quote" required="quote"></ComponentTextarea>
 
-      <ComponentCheckbox label="Опубликовать" v-model="data.published" k="published"></ComponentCheckbox>
+      <ComponentCheckbox label="Опубликовать" v-model="data.published" required="published"></ComponentCheckbox>
     </section>
 
     <section class="card">

@@ -111,19 +111,19 @@ store.first(route.params.id);
     </section>
 
     <section :class="[{ error: errors.error }, 'card']">
-      <ComponentInput label="Название" v-model="data.name" type="text" k="name"></ComponentInput>
+      <ComponentInput label="Название" v-model="data.name" type="text" required="name"></ComponentInput>
 
-      <ComponentInput label="Режим работы" v-model="data.period" type="text" k="period"></ComponentInput>
+      <ComponentInput label="Режим работы" v-model="data.period" type="text" required="period"></ComponentInput>
 
-      <ComponentInput label="Зарплата" v-model="data.cost" type="text" k="cost"></ComponentInput>
+      <ComponentInput label="Зарплата" v-model="data.cost" type="text" required="cost"></ComponentInput>
 
-      <ComponentInput label="Место работы" v-model="data.address" type="text" k="address"></ComponentInput>
+      <ComponentInput label="Место работы" v-model="data.address" type="text" required="address"></ComponentInput>
 
-      <ComponentCheckbox label="Опубликовать" v-model="data.published" k="published"></ComponentCheckbox>
+      <ComponentCheckbox label="Опубликовать" v-model="data.published" required="published"></ComponentCheckbox>
     </section>
 
     <section class="card" v-for="(c, i) of data.duties" :key="i">
-      <ComponentInput label="Обязанности" v-model="data.duties[i]" type="text" k="duties[0]"></ComponentInput>
+      <ComponentInput label="Обязанности" v-model="data.duties[i]" type="text" required="duties[0]"></ComponentInput>
     </section>
 
     <button type="button" v-on:click="addDuties()" style="margin: auto">
@@ -135,7 +135,7 @@ store.first(route.params.id);
     </button>
 
     <section class="card" v-for="(c, i) of data.requirements" :key="i">
-      <ComponentInput label="Требования" v-model="data.requirements[i]" type="text" k="requirements[0]"></ComponentInput>
+      <ComponentInput label="Требования" v-model="data.requirements[i]" type="text" required="requirements[0]"></ComponentInput>
     </section>
 
     <button type="button" v-on:click="addRequirements()" style="margin: auto">
@@ -147,7 +147,7 @@ store.first(route.params.id);
     </button>
 
     <section class="card" v-for="(c, i) of data.conditions" :key="i">
-      <ComponentInput label="Условия" v-model="data.conditions[i]" type="text" k="conditions[0]"></ComponentInput>
+      <ComponentInput label="Условия" v-model="data.conditions[i]" type="text" required="conditions[0]"></ComponentInput>
     </section>
 
     <button type="button" v-on:click="addConditions()" style="margin: auto">

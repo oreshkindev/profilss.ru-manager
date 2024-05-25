@@ -61,7 +61,7 @@ const prepareSubmit = () => {
     </section>
 
     <section :class="[{ error: errors.error }, 'card']">
-      <ComponentInput label="Наименование" v-model="data.name" type="text" k="name"></ComponentInput>
+      <ComponentInput label="Наименование" v-model="data.name" type="text" required="name"></ComponentInput>
     </section>
 
     <button type="button" v-on:click="prepareSubmit()">

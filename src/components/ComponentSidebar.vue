@@ -14,14 +14,6 @@ const store = useApp();
       </svg>
     </RouterLink>
 
-    <RouterLink to="/i" title="Управление главной">
-      <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#707a8a" viewBox="0 0 16 16">
-        <path
-          d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5z"
-        />
-      </svg>
-    </RouterLink>
-
     <RouterLink to="/bid" title="Заявки с сайта">
       <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#707a8a" class="bi bi-chat-left-text" viewBox="0 0 16 16">
         <path
@@ -36,8 +28,7 @@ const store = useApp();
     <RouterLink to="/service" title="Список услуг">
       <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#707a8a" viewBox="0 0 16 16">
         <path
-          fill-rule="evenodd"
-          d="M4.5 11.5A.5.5 0 0 1 5 11h10a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5m-2-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m-2-4A.5.5 0 0 1 1 3h10a.5.5 0 0 1 0 1H1a.5.5 0 0 1-.5-.5"
+          d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5z"
         />
       </svg>
     </RouterLink>
@@ -67,7 +58,7 @@ const store = useApp();
       </svg>
     </RouterLink>
 
-    <RouterLink to="/c" title="Настройки">
+    <RouterLink to="/setting" title="Настройки">
       <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#707a8a" viewBox="0 0 16 16">
         <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
         <path
