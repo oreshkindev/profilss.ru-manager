@@ -169,6 +169,41 @@ const routes = [
             meta: {
               layout: 'LayoutAdmin'
             }
+          },
+          {
+            path: '/sub-category',
+            name: 'sub-category',
+            // route level code-splitting
+            // this generates a separate chunk (Home.[hash].js) for this route
+            // which is lazy-loaded when the route is visited.
+            component: () => import('@/pages/product/category/subcategory/views/ViewIndex.vue'),
+            meta: {
+              layout: 'LayoutAdmin'
+            },
+            children: [
+              {
+                path: 'create',
+                name: 'sub-category-create',
+                // route level code-splitting
+                // this generates a separate chunk (Home.[hash].js) for this route
+                // which is lazy-loaded when the route is visited.
+                component: () => import('@/pages/product/category/subcategory/views/ViewCreate.vue'),
+                meta: {
+                  layout: 'LayoutAdmin'
+                }
+              },
+              {
+                path: 'update/:id',
+                name: 'sub-category-update',
+                // route level code-splitting
+                // this generates a separate chunk (Home.[hash].js) for this route
+                // which is lazy-loaded when the route is visited.
+                component: () => import('@/pages/product/category/subcategory/views/ViewUpdate.vue'),
+                meta: {
+                  layout: 'LayoutAdmin'
+                }
+              }
+            ]
           }
         ]
       },

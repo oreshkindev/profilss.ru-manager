@@ -5,8 +5,6 @@ import ComponentInput from '@/components/ComponentInput.vue';
 import { errors, setErrors } from '@/composables/errors';
 import { Protector, isNonEmptyString } from '@/composables/validates';
 import { StoreCategory } from '@/pages/product/category/stores';
-import { StoreIso } from '@/pages/product/iso/stores';
-import type { Iso } from '@/pages/product/iso/types';
 import { StoreProduct } from '@/pages/product/stores';
 import { StoreCharacteristic } from '@/pages/product/stores/characteristic';
 import type { Product } from '@/pages/product/types';
@@ -21,26 +19,9 @@ const data = computed(() => store.product);
 
 const category = StoreCategory();
 const characteristic = StoreCharacteristic();
-const iso = StoreIso();
 
 category.find();
 characteristic.find();
-iso.find();
-
-const addISO = () => {
-  if (data.value) {
-    data.value.isos.push({
-      id: 0,
-      name: ''
-    } as Iso);
-  }
-};
-
-const removeISO = (index: number) => {
-  if (data.value) {
-    data.value.isos.splice(index, 1);
-  }
-};
 
 // Create an instance of Protector class with rules for the field
 const protector = new Protector(
@@ -119,24 +100,6 @@ store.first(route.params.id);
 
       <ComponentInput label="Цена за 1 тонну с НДС" v-model="data.characteristic.max_price" type="text" k=""></ComponentInput>
     </section>
-
-    <section class="card with__control" v-for="(c, index) of data.isos" :key="index">
-      <ComponentDropdown label="ГОСТ" :value="iso.isos" v-model="data.isos[index]" k=""></ComponentDropdown>
-
-      <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" @click="removeISO(index)">
-        <path
-          d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"
-        />
-      </svg>
-    </section>
-
-    <button type="button" v-on:click="addISO()" style="margin: auto">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
-      </svg>
-
-      <span>Добавить ГОСТ</span>
-    </button>
 
     <button type="button" v-on:click="prepareSubmit()">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">

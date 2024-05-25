@@ -3,19 +3,19 @@ import { setErrors } from '@/composables/errors';
 import { router } from '@/router';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import type { Product } from '../types';
+import type { SubCategory } from '../types';
 
-export const StoreProduct = defineStore('product', () => {
-  const product = ref<Product>();
+export const StoreSubCategory = defineStore('sub_category', () => {
+  const sub_category = ref<SubCategory>();
 
-  const products = ref<Product[]>([]);
+  const sub_categories = ref<SubCategory[]>([]);
 
-  const create = (data: Product) => {
+  const create = (data: SubCategory) => {
     axios
-      .post('/product', data)
+      .post('/product/sub-category', data)
       .then(() => {
         // redirect to dashboard
-        router.push({ name: 'product' });
+        router.push({ name: 'sub-category' });
       })
       .catch((error) => setErrors({ error: error }))
       .finally(() => {
@@ -25,28 +25,41 @@ export const StoreProduct = defineStore('product', () => {
 
   const find = () => {
     axios
-      .get('/product')
+      .get('/product/sub-category')
       .then((response) => {
-        products.value = response.data;
+        sub_categories.value = response.data;
       })
       .catch((error) => setErrors({ error: error }));
   };
 
   const first = (id: any) => {
     axios
-      .get(`/product/${id}`)
+      .get(`/product/sub-category/${id}`)
       .then((response) => {
-        product.value = response.data;
+        sub_category.value = response.data;
       })
       .catch((error) => setErrors({ error: error }));
   };
 
+  const update = (data: SubCategory) => {
+    axios
+      .put(`/product/sub-category/${data.id}`, data)
+      .then(() => {
+        // redirect to dashboard
+        router.push({ name: 'sub-category' });
+      })
+      .catch((error) => setErrors({ error: error }))
+      .finally(() => {
+        find();
+      });
+  };
+
   const remove = (id: any) => {
     axios
-      .delete(`/product/${id}`)
+      .delete(`/product/sub-category/${id}`)
       .then(() => {
         // redirect to dashboard
-        router.push({ name: 'product' });
+        router.push({ name: 'sub-category' });
       })
       .catch((error) => setErrors({ error: error }))
       .finally(() => {
@@ -54,22 +67,5 @@ export const StoreProduct = defineStore('product', () => {
       });
   };
 
-  const update = (data: Product) => {
-    axios
-      .put(`/product/${data.id}`, data)
-      .then(() => {
-        // redirect to dashboard
-        router.push({ name: 'product' });
-      })
-      .catch((error) => setErrors({ error: error }))
-      .finally(() => {
-        find();
-      });
-  };
-
-  const dump = () => {
-    axios.post(`/product/dump-excel`).catch((error) => setErrors({ error: error }));
-  };
-
-  return { create, find, first, product, products, remove, update, dump };
+  return { create, find, first, sub_category, sub_categories, update, remove };
 });

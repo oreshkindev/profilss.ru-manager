@@ -1,57 +1,51 @@
 <script setup lang="ts">
 import ComponentCheckbox from '@/components/ComponentCheckbox.vue';
-import ComponentFileUpload from '@/components/ComponentFileUpload.vue';
 import ComponentInput from '@/components/ComponentInput.vue';
 import ComponentTextarea from '@/components/ComponentTextarea.vue';
 import { errors, setErrors } from '@/composables/errors';
 import { Protector, isNonEmptyString } from '@/composables/validates';
-import { StoreService } from '@/pages/service/stores';
 import { computed } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
-import type { Service } from '../types';
-
+import { StoreSubCategory } from '../stores';
+import type { SubCategory } from '../types';
 const route = useRoute();
 
-const store = StoreService();
+const store = StoreSubCategory();
 
-const data = computed(() => store.service);
+store.first(route.params.id);
+
+const data = computed(() => store.sub_category);
 
 // Create an instance of Protector class with rules for the field
 const protector = new Protector(
   {
     fieldName: 'name',
     rule: (value: string) => isNonEmptyString(value),
-    errorMessage: 'Название должно содержать не менее 5 символов'
+    errorMessage: 'Наименование - это обязательное поле'
   },
   {
     fieldName: 'description',
     rule: (value: string) => isNonEmptyString(value),
-    errorMessage: 'Описание должно содержать не менее 5 символов'
-  },
-  {
-    fieldName: 'content',
-    rule: (value: string) => isNonEmptyString(value),
-    errorMessage: 'Содержимое публикации должно содержать не менее 25 символов'
+    errorMessage: 'Описание - это обязательное поле'
   }
 );
 
 const prepareSubmit = () => {
+  // Synchronous testing
   const errors = protector.validate(data.value);
   if (Object.keys(errors).length !== 0) {
     setErrors(errors);
     return;
   }
 
-  store.update(data.value as Service);
+  store.update(data.value as SubCategory);
 };
-
-store.first(route.params.id);
 </script>
 
 <template>
   <main v-if="data">
     <nav>
-      <RouterLink :to="{ name: 'service' }" title="Новая запись" class="button">
+      <RouterLink :to="{ name: 'sub-category' }" title="Назад" class="button">
         <span>Назад</span>
       </RouterLink>
 
@@ -76,19 +70,13 @@ store.first(route.params.id);
     </section>
 
     <section :class="[{ error: errors.error }, 'card']">
-      <ComponentInput label="Название" v-model="data.name" type="text" k="name"></ComponentInput>
+      <ComponentInput label="Наименование" v-model="data.name" type="text" k="name"></ComponentInput>
 
       <ComponentTextarea label="Описание" v-model="data.description" k="description"></ComponentTextarea>
 
-      <ComponentTextarea label="Содержимое публикации" v-model="data.content" k="content"></ComponentTextarea>
-
-      <ComponentTextarea label="Цитата" v-model="data.quote" k="quote"></ComponentTextarea>
+      <ComponentTextarea label="Содержимое" v-model="data.content" k="content"></ComponentTextarea>
 
       <ComponentCheckbox label="Опубликовать" v-model="data.published" k="published"></ComponentCheckbox>
-    </section>
-
-    <section class="card">
-      <ComponentFileUpload v-model:file="data.file" :filename="data.file" type="image" accepted="image/png, image/jpeg"></ComponentFileUpload>
     </section>
 
     <button type="button" v-on:click="prepareSubmit()">

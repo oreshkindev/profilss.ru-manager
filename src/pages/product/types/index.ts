@@ -1,13 +1,11 @@
 import type { Category } from '../category/types';
-import type { Iso } from '../iso/types';
 
 interface Product {
   id?: number;
   category: Category;
-  isos: Iso[];
   characteristic: Characteristic;
-  created_at?: number;
   published: boolean;
+  created_at?: number;
 }
 
 interface Characteristic {
@@ -19,4 +17,4 @@ interface Characteristic {
   weight: string;
 }
 
-export type { Characteristic, Iso, Product };
+export type { Characteristic, Product };

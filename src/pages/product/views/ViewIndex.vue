@@ -28,7 +28,7 @@ store.find();
         <span>Новая запись</span>
       </RouterLink>
 
-      <button type="button">
+      <button type="button" v-on:click="store.dump()">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
           <path
             d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5zM3 12v-2h2v2zm0 1h2v2H4a1 1 0 0 1-1-1zm3 2v-2h3v2zm4 0v-2h3v1a1 1 0 0 1-1 1zm3-3h-3v-2h3zm-7 0v-2h3v2z"
@@ -84,7 +84,7 @@ store.find();
         </td>
 
         <td>
-          <span v-for="(el, index) in item.isos" :key="el.id"> {{ index < item.isos.length - 1 ? el.name + ', ' : el.name }} </span>
+          <span v-for="(el, index) in item.category.iso" :key="el.id"> {{ index < item.category.iso.length - 1 ? el.name + ', ' : el.name }} </span>
         </td>
 
         <td>

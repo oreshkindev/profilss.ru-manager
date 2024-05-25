@@ -1,10 +1,21 @@
+import type { Iso } from '../../iso/types';
+
 interface Category {
+  id?: number;
+  file: File;
+  sub_category: SubCategory;
+  iso: Iso[];
+  name: string;
+  description: string;
+  published: boolean;
+  created_at?: number;
+}
+
+interface SubCategory {
   id?: number;
   name: string;
   description: string;
   content: string;
-  adv: string;
-  file: File;
   published: boolean;
   created_at?: number;
 }
@@ -15,4 +26,4 @@ interface File {
   video: string;
 }
 
-export type { Category, File };
+export type { Category, File, SubCategory };

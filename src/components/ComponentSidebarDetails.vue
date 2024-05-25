@@ -17,6 +17,12 @@ const route = useRoute();
       </li>
     </ul>
 
+    <ul v-if="route.name === 'category'">
+      <li>
+        <RouterLink :to="{ name: 'sub-category' }" title="Подкатегории"> Подкатегории </RouterLink>
+      </li>
+    </ul>
+
     <ul v-else-if="route.name === 'user'">
       <li>
         <RouterLink :to="{ name: 'hr' }" title="Вакансии"> Вакансии </RouterLink>
