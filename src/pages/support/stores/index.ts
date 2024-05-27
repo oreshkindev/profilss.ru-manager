@@ -2,30 +2,30 @@ import { axios } from '@/common/axios';
 import { setErrors } from '@/composables/errors';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import type { Chat } from '../types';
+import type { Support } from '../types';
 
-export const StoreChat = defineStore('chat', () => {
-  const chat = ref<Chat>();
+export const StoreSupport = defineStore('support', () => {
+  const support = ref<Support>();
 
-  const chats = ref<Chat[]>([]);
+  const supports = ref<Support[]>([]);
 
   const find = () => {
     axios
-      .get('/chat')
+      .get('/support')
       .then((response) => {
-        chats.value = response.data;
+        supports.value = response.data;
       })
       .catch((error) => setErrors({ error: error }));
   };
 
   const first = (id: any) => {
     axios
-      .get(`/chat/${id}`)
+      .get(`/support/${id}`)
       .then((response) => {
-        chat.value = response.data;
+        support.value = response.data;
       })
       .catch((error) => setErrors({ error: error }));
   };
 
-  return { find, first, chat, chats };
+  return { find, first, support, supports };
 });

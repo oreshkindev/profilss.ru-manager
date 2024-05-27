@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import { StoreChat } from '@/pages/chat/stores';
+import { StoreSupport } from '@/pages/support/stores';
 import { computed } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
-import type { Chat } from '../types';
+import type { Support } from '../types';
 
-const store = StoreChat();
+const store = StoreSupport();
 
 store.find();
 
-const groupedChats = computed(() => {
-  const groups = store.chats.reduce((acc: any, chat: Chat) => {
+const groupedSupports = computed(() => {
+  const groups = store.supports.reduce((acc: any, support: Support) => {
     // Находим группу по session_id или создаем новую
-    let group = acc.find((g: any) => g.session_id === chat.session_id);
+    let group = acc.find((g: any) => g.session_id === support.session_id);
     if (!group) {
       group = {
-        session_id: chat.session_id,
+        session_id: support.session_id,
         messages: []
       };
       acc.push(group);
     }
     // Убираем session_id из сообщения, так как он уже есть в объекте группы
-    const { ...messageWithoutSessionId } = chat;
+    const { ...messageWithoutSessionId } = support;
     // Добавляем сообщение в массив messages группы
     group.messages.push(messageWithoutSessionId);
     return acc;
@@ -31,7 +31,7 @@ const groupedChats = computed(() => {
 </script>
 
 <template>
-  <main v-if="$route.path === '/chat'">
+  <main v-if="$route.path === '/support'">
     <h1>Заявки с сайта</h1>
 
     <section class="card">
@@ -41,16 +41,16 @@ const groupedChats = computed(() => {
       </p>
     </section>
 
-    <table class="card" v-if="store.chats.length">
+    <table class="card" v-if="store.supports.length">
       <thead>
         <tr>
           <th>Пользователь</th>
         </tr>
       </thead>
 
-      <tr v-for="item of groupedChats" :key="item.session_id">
+      <tr v-for="item of groupedSupports" :key="item.session_id">
         <td>
-          <RouterLink :to="{ name: 'chat-view', params: { id: item.session_id } }">
+          <RouterLink :to="{ name: 'support-view', params: { id: item.session_id } }">
             {{ item.session_id }}
           </RouterLink>
         </td>

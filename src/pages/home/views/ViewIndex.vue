@@ -11,9 +11,43 @@
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo beatae quasi, error voluptates, iure asperiores atque amet a adipisci ipsum dignissimos tempora libero
         doloribus id vel, minus in officiis quam.
       </p>
+
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo beatae quasi, error voluptates, iure asperiores atque amet a adipisci ipsum dignissimos tempora libero
+        doloribus id vel, minus in officiis quam.
+      </p>
     </section>
 
     <section>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo beatae quasi, error voluptates, iure asperiores atque amet a adipisci ipsum dignissimos tempora libero
+        doloribus id vel, minus in officiis quam.
+      </p>
+
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo beatae quasi, error voluptates, iure asperiores atque amet a adipisci ipsum dignissimos tempora libero
+        doloribus id vel, minus in officiis quam.
+      </p>
+    </section>
+
+    <section>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo beatae quasi, error voluptates, iure asperiores atque amet a adipisci ipsum dignissimos tempora libero
+        doloribus id vel, minus in officiis quam.
+      </p>
+
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo beatae quasi, error voluptates, iure asperiores atque amet a adipisci ipsum dignissimos tempora libero
+        doloribus id vel, minus in officiis quam.
+      </p>
+    </section>
+
+    <section>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo beatae quasi, error voluptates, iure asperiores atque amet a adipisci ipsum dignissimos tempora libero
+        doloribus id vel, minus in officiis quam.
+      </p>
+
       <p>
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo beatae quasi, error voluptates, iure asperiores atque amet a adipisci ipsum dignissimos tempora libero
         doloribus id vel, minus in officiis quam.
@@ -25,10 +59,15 @@
 <style scoped lang="scss">
 main {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   flex: 1;
   padding: 24px;
   gap: 24px;
+  align-content: start;
+
+  h1 {
+    flex: 0 0 100%;
+  }
 }
 
 section {
@@ -38,5 +77,6 @@ section {
     0 4px 16px #0033990a,
     0 2px 2px #00339914;
   padding: 24px;
+  flex: 1;
 }
 </style>

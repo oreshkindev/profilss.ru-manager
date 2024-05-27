@@ -1,8 +1,22 @@
 <script setup lang="ts">
+import { getProfile } from '@/composables';
+import { StoreSupport } from '@/pages/support/stores';
+import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import IconLogo from './icons/IconLogo.vue';
 import IconNotice from './icons/IconNotice.vue';
 import IconProfile from './icons/IconProfile.vue';
+
+const sup = StoreSupport();
+
+sup.find();
+
+// check if support.support contains status false
+const hasUnread = computed(() => {
+  return sup.supports?.filter((s: any) => s.status === false).length;
+});
+
+const profile = computed(() => getProfile());
 </script>
 
 <template>
@@ -14,12 +28,12 @@ import IconProfile from './icons/IconProfile.vue';
     <nav>
       <ul>
         <li>
-          <RouterLink to="/chat">
-            <IconNotice></IconNotice>
+          <RouterLink to="/support">
+            <IconNotice :unread="!!hasUnread"></IconNotice>
           </RouterLink>
         </li>
 
-        <li>Почта</li>
+        <li>{{ profile.email }}</li>
 
         <li>
           <RouterLink to="/">

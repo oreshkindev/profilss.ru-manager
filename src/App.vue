@@ -55,6 +55,11 @@ body {
   }
 }
 
+main {
+  overflow: auto;
+  scrollbar-width: none;
+}
+
 b {
   font-weight: 600;
 }
