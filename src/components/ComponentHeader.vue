@@ -14,7 +14,7 @@ import IconProfile from './icons/IconProfile.vue';
     <nav>
       <ul>
         <li>
-          <RouterLink to="/">
+          <RouterLink to="/chat">
             <IconNotice></IconNotice>
           </RouterLink>
         </li>

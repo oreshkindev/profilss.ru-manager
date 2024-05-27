@@ -7,7 +7,7 @@ import ComponentTextarea from '@/components/ComponentTextarea.vue';
 import { errors, setErrors } from '@/composables/errors';
 import { Protector, isNonEmptyString } from '@/composables/validates';
 import { StoreCategory } from '@/pages/product/category/stores';
-import type { Category } from '@/pages/product/category/types';
+import type { Category, File } from '@/pages/product/category/types';
 import { computed } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import { StoreIso } from '../../iso/stores';
@@ -19,6 +19,14 @@ const route = useRoute();
 const store = StoreCategory();
 const sub_category = StoreSubCategory();
 const iso = StoreIso();
+
+store.category = {
+  id: 0,
+  file: {
+    image: '',
+    video: ''
+  } as File
+} as Category;
 
 store.first(route.params.id);
 sub_category.find();
@@ -52,16 +60,6 @@ const protector = new Protector(
     fieldName: 'description',
     rule: (value: string) => isNonEmptyString(value),
     errorMessage: 'Описание - это обязательное поле'
-  },
-  {
-    fieldName: 'sub_category.name',
-    rule: (value: string) => isNonEmptyString(value),
-    errorMessage: 'Подкатегория - это обязательное поле'
-  },
-  {
-    fieldName: 'iso[0].name',
-    rule: (value: string) => isNonEmptyString(value),
-    errorMessage: 'ГОСТ - это обязательное поле'
   }
 );
 
@@ -108,15 +106,15 @@ const prepareSubmit = () => {
 
       <ComponentTextarea label="Описание" v-model="data.description" required="description"></ComponentTextarea>
 
-      <ComponentCheckbox label="Опубликовать" v-model="data.published" required="published"></ComponentCheckbox>
+      <ComponentCheckbox label="Опубликовать" v-model="data.published"></ComponentCheckbox>
     </section>
 
     <section class="card">
-      <ComponentDropdown label="Подкатегория" :value="sub_category.sub_categories" v-model="data.sub_category" required="sub_category.name"></ComponentDropdown>
+      <ComponentDropdown label="Подкатегория" :value="sub_category.sub_categories" v-model="data.sub_category"></ComponentDropdown>
     </section>
 
     <section class="card with__control" v-for="(c, index) of data.iso" :key="index">
-      <ComponentDropdown label="ГОСТ" :value="iso.isos" v-model="data.iso[index]" :required="`iso[${index}].name`"></ComponentDropdown>
+      <ComponentDropdown label="ГОСТ" :value="iso.isos" v-model="data.iso[index]"></ComponentDropdown>
 
       <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" v-on:click="removeISO(index)">
         <path
@@ -134,7 +132,7 @@ const prepareSubmit = () => {
     </button>
 
     <section class="card">
-      <ComponentFileUpload v-model:file="data.file.preview" :filename="data.file.preview" type="image" accepted="image/png, image/jpeg"></ComponentFileUpload>
+      <ComponentFileUpload v-model:file="data.file.image" :filename="data.file.image" type="image" accepted="image/png, image/jpeg"></ComponentFileUpload>
     </section>
 
     <section class="card">

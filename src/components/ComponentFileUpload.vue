@@ -23,9 +23,6 @@ interface Emits {
 // forming a file object
 const { file, prepareFile }: { file: File; prepareFile: (event: any) => void } = useFile();
 
-// define storage
-// const store: any = useUpload();
-
 // waiting for the props
 const props = defineProps<Props>();
 
@@ -72,6 +69,13 @@ const prepareUpload = (event: any): void => {
     <template v-else-if="props.type === 'video' && file.blob">
       <video autoplay loop :poster="file.blob">
         <source :src="file.blob" />
+        Your browser does not support the video tag.
+      </video>
+    </template>
+
+    <template v-else-if="props.type === 'video' && props.filename !== ''">
+      <video autoplay loop>
+        <source :src="`${api}/media/${props.filename}.mp4`" />
         Your browser does not support the video tag.
       </video>
     </template>

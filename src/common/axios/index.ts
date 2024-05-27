@@ -3,7 +3,7 @@ import { router } from '@/router';
 import { state } from '@/stores';
 import axios from 'axios';
 // import axiosCacheAdapter from "axios-cache-adapter";
-const baseURL = import.meta.env.VITE_HTTP;
+const baseURL = import.meta.env.VITE_HTTP + '/v1';
 
 const instance = axios.create({
   baseURL

@@ -22,7 +22,7 @@ interface SubCategory {
 
 interface File {
   id?: number;
-  preview: string;
+  image: string;
   video: string;
 }
 

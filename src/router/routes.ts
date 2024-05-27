@@ -359,6 +359,30 @@ const routes = [
         ]
       }
     ]
+  },
+  {
+    path: '/chat',
+    name: 'chat',
+    // route level code-splitting
+    // this generates a separate chunk (Home.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import('@/pages/chat/views/ViewIndex.vue'),
+    meta: {
+      layout: 'LayoutAdmin'
+    },
+    children: [
+      {
+        path: 'view/:id',
+        name: 'chat-view',
+        // route level code-splitting
+        // this generates a separate chunk (Home.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('@/pages/chat/views/ViewRead.vue'),
+        meta: {
+          layout: 'LayoutAdmin'
+        }
+      }
+    ]
   }
 ];
 

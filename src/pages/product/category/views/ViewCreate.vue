@@ -23,7 +23,7 @@ iso.find();
 
 const data = reactive<Category>({
   file: {
-    preview: '',
+    image: '',
     video: ''
   } as File,
   sub_category: {
@@ -140,7 +140,7 @@ const prepareSubmit = () => {
     </button>
 
     <section class="card">
-      <ComponentFileUpload v-model:file="data.file.preview" :filename="data.file.preview" type="image" accepted="image/png, image/jpeg"></ComponentFileUpload>
+      <ComponentFileUpload v-model:file="data.file.image" :filename="data.file.image" type="image" accepted="image/png, image/jpeg"></ComponentFileUpload>
     </section>
 
     <section class="card">

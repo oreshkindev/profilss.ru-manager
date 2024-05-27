@@ -39,7 +39,7 @@ const model = defineModel<any>();
   <template v-else>
     <ul>
       <li v-on:click="visible = !visible">
-        {{ model.name || 'Выбрать из списка' }}
+        {{ model?.name || 'Выбрать из списка' }}
       </li>
 
       <ul v-if="visible">
