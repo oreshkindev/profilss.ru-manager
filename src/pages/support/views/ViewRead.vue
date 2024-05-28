@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { StoreSupport } from '@/pages/support/stores';
-import { computed, nextTick, onMounted, ref } from 'vue';
+import { nextTick, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -9,21 +9,17 @@ const store = StoreSupport();
 
 const messageSound = new Audio('https://oreshkin.dev/notification.mp3');
 
-const data = computed(() => store.support);
-
 const baseURL = import.meta.env.VITE_WSS;
 
 const input = ref('');
 
-const messages = ref<any>();
+const container = ref<HTMLElement | null>(null);
 
-const container = ref<any>(null);
-
-store.first(route.params.id);
+store.first(route.params.id as string);
 
 const socket = new WebSocket(`${baseURL}/support/room/${route.params.id}`);
 
-socket.onopen = function () {
+socket.onopen = () => {
   socket.send(
     JSON.stringify({
       session_id: route.params.id
@@ -31,18 +27,25 @@ socket.onopen = function () {
   );
 };
 
-socket.onmessage = function (event) {
-  const message: any = JSON.parse(event.data);
+socket.onmessage = (event) => {
+  const parsedMessage = JSON.parse(event.data);
 
-  if (Array.isArray(message) && message.length > 0) {
-    messages.value = message;
-  } else {
-    messages.value.push(message);
+  if (!Array.isArray(parsedMessage)) {
+    store.state.responseList = [...store.state.responseList, parsedMessage];
 
     messageSound.play();
   }
 
   scrollToBottom();
+};
+
+const scrollToBottom = () => {
+  nextTick(() => {
+    const element = container.value;
+    if (element) {
+      element.scrollTo({ top: element.scrollHeight, behavior: 'smooth' });
+    }
+  });
 };
 
 const sendMessage = () => {
@@ -51,72 +54,59 @@ const sendMessage = () => {
       JSON.stringify({
         session_id: route.params.id,
         manager_id: 1,
-        message: input.value
+        message: input.value,
+        status: true
       })
     );
   }
   input.value = '';
 };
 
-const scrollToBottom = () => {
-  nextTick(() => {
-    if (container.value) {
-      (container.value as HTMLElement).scrollTop = (container.value as HTMLElement).scrollHeight;
-    }
-  });
-};
+store.update(route.params.id as string);
 
-// Call scrollToBottom when the component is mounted
-onMounted(() => {
-  scrollToBottom();
-});
+scrollToBottom();
 </script>
 
 <template>
-  <main v-if="data">
+  <main>
     <nav>
       <RouterLink :to="{ name: 'support' }" title="Назад" class="button">
         <span>Назад</span>
       </RouterLink>
+
+      <button type="button" v-on:click="store.remove(route.params.id as string)">
+        <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+          <path
+            d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"
+          />
+        </svg>
+
+        <span>Удалить комнату</span>
+      </button>
     </nav>
 
     <section class="card">
       <p>
-        Обратите внимание на текущее состояние заявки. Если заявка находится в статусе <b>«Обработана»</b>, кнопка будет неактивна и перевести ее в статус <b>«Новая»</b> не будет
-        возможности. Если заявка находится в статусе <b>«Новая»</b>, менеждер может перевести ее в стату <b>«Обработана»</b>.
+        Обратите внимание на состояние индикатора в правом верхнем углу. Если имеются непрочитанные сообщения в какой-либо комнате, индикатор будет <b>подсвечиваться синим</b>. В
+        обычном состоянии индикатор серый. При открытии комнаты состояния сообщений в этой комнате сбрасывается в обычное состояние.
       </p>
 
       <p>После обработки заявки не забывайте изменить ее состояние.</p>
     </section>
 
-    <section class="card">
-      <div class="chat" ref="container">
-        <p :class="[{ manager: message.manager_id === 1 }, 'card']" v-for="(message, index) in messages || data" :key="index">{{ message.message }}</p>
-      </div>
-
-      <input type="text" v-model="input" placeholder="Напишите сообщение" />
+    <section class="card chat" ref="container">
+      <p v-for="(el, index) in store.state.responseList" :key="index" :class="[{ manager: el.manager_id === 1 }, 'card']">{{ el.message }}</p>
     </section>
 
-    <button type="button" :disabled="data.status === true" @click="sendMessage()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-        <path
-          d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855a.75.75 0 0 0-.124 1.329l4.995 3.178 1.531 2.406a.5.5 0 0 0 .844-.536L6.637 10.07l7.494-7.494-1.895 4.738a.5.5 0 1 0 .928.372zm-2.54 1.183L5.93 9.363 1.591 6.602z"
-        />
-        <path
-          d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686"
-        />
-      </svg>
+    <input type="text" v-model="input" v-on:keyup.enter="sendMessage()" placeholder="Напишите сообщение" />
 
+    <button type="button" v-on:click="sendMessage()">
       <span>Отправить</span>
     </button>
   </main>
 </template>
 
 <style scoped lang="scss">
-main {
-  overflow: auto;
-}
-
 nav {
   display: flex;
   gap: 24px;
@@ -141,51 +131,26 @@ nav {
 section {
   padding: 24px;
 
-  .chat {
-    display: flex;
-    flex-direction: column;
+  &.chat {
+    display: grid;
     gap: 24px;
-    height: 100%;
-    max-height: 700px;
+    max-height: 400px;
+    min-height: 280px;
     overflow: auto;
     scrollbar-width: none;
-    padding-bottom: 70px;
-    position: relative;
-  }
 
-  input[type='text'] {
-    border: 1px solid var(--c-border);
-    border-radius: 3px;
-    background-color: #ffffff;
-    display: block;
-    width: 100%;
-    padding: 12px 24px;
-    margin-top: -50px;
-    position: relative;
-  }
+    p {
+      padding: 12px 24px;
+      width: fit-content;
 
-  p {
-    padding: 12px 24px;
-    width: fit-content;
-
-    &.manager {
-      margin-left: auto;
-    }
-  }
-
-  ul {
-    margin-bottom: 12px;
-    li {
-      display: block;
-
-      a {
-        color: var(--c-scheme);
-
-        &:hover {
-          text-decoration: underline;
-        }
+      &.manager {
+        margin-left: auto;
       }
     }
   }
+}
+
+input[type='text'] {
+  padding: 12px 24px;
 }
 </style>

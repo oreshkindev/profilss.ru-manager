@@ -9,7 +9,7 @@ const store = StoreSupport();
 store.find();
 
 const groupedSupports = computed(() => {
-  const groups = store.supports.reduce((acc: any, support: Support) => {
+  const groups = store.state.responseList.reduce((acc: any, support: Support) => {
     // Находим группу по session_id или создаем новую
     let group = acc.find((g: any) => g.session_id === support.session_id);
     if (!group) {
@@ -32,16 +32,16 @@ const groupedSupports = computed(() => {
 
 <template>
   <main v-if="$route.path === '/support'">
-    <h1>Заявки с сайта</h1>
+    <h1>Обращения с сайта</h1>
 
     <section class="card">
       <p>
-        Здесь размещаются все обращения пользователей и их состояние. Для того чтобы посмотреть заявку, необходимо нажать на <b>адрес эл.почты в заявке</b>, после чего вы попадете
-        на страницу обращения. Удалить заявку можно нажав на кнопку <b>«Удалить запись»</b> на странице обращения.
+        Здесь размещаются все обращения пользователей и их состояние. Для того чтобы перейти в чат, необходимо нажать на <b>идентификатор сессии</b>, после чего вы попадете на
+        страницу обращения. Удалить чат можно нажав на кнопку <b>«Удалить чат»</b> на странице обращения.
       </p>
     </section>
 
-    <table class="card" v-if="store.supports.length">
+    <table class="card" v-if="store.state.responseList.length">
       <thead>
         <tr>
           <th>Пользователь</th>
@@ -57,7 +57,7 @@ const groupedSupports = computed(() => {
       </tr>
     </table>
 
-    <h4 v-else>Список заявок пуст</h4>
+    <h4 v-else>Список обращений пуст</h4>
   </main>
 
   <RouterView></RouterView>

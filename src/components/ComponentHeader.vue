@@ -7,13 +7,13 @@ import IconLogo from './icons/IconLogo.vue';
 import IconNotice from './icons/IconNotice.vue';
 import IconProfile from './icons/IconProfile.vue';
 
-const sup = StoreSupport();
+const support = StoreSupport();
 
-sup.find();
+support.find();
 
 // check if support.support contains status false
 const hasUnread = computed(() => {
-  return sup.supports?.filter((s: any) => s.status === false).length;
+  return support.state.responseList.filter((el: any) => el.status === false).length;
 });
 
 const profile = computed(() => getProfile());

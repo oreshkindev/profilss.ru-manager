@@ -1,31 +1,55 @@
 import { axios } from '@/common/axios';
 import { setErrors } from '@/composables/errors';
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { reactive } from 'vue';
 import type { Support } from '../types';
 
+import { router } from '@/router';
+
 export const StoreSupport = defineStore('support', () => {
-  const support = ref<Support>();
+  const state = reactive({
+    responseData: {} as Support,
+    responseList: [] as Support[]
+  });
 
-  const supports = ref<Support[]>([]);
-
-  const find = () => {
-    axios
-      .get('/support')
-      .then((response) => {
-        supports.value = response.data;
-      })
-      .catch((error) => setErrors({ error: error }));
+  const find = async () => {
+    try {
+      const { data } = await axios.get<Support[]>('/support');
+      state.responseList = data;
+    } catch (error) {
+      setErrors({ error });
+    }
   };
 
-  const first = (id: any) => {
-    axios
-      .get(`/support/${id}`)
-      .then((response) => {
-        support.value = response.data;
-      })
-      .catch((error) => setErrors({ error: error }));
+  const first = async (id: string) => {
+    try {
+      const { data } = await axios.get<Support[]>(`/support/${id}`);
+      state.responseList = data;
+    } catch (error) {
+      setErrors({ error });
+    }
   };
 
-  return { find, first, support, supports };
+  const update = async (id: string) => {
+    try {
+      await axios.put(`/support/${id}`);
+    } catch (error) {
+      setErrors({ error });
+    } finally {
+      find();
+    }
+  };
+
+  const remove = async (id: string) => {
+    try {
+      await axios.delete(`/support/${id}`);
+      router.push({ name: 'support' });
+    } catch (error) {
+      setErrors({ error });
+    } finally {
+      find();
+    }
+  };
+
+  return { find, first, update, remove, state };
 });
